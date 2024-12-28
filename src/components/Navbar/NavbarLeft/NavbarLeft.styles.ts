@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   root: {
     width: "200px",
-    height: "90vh",
+    height: "86vh",
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
@@ -22,12 +22,12 @@ export const useStyles = makeStyles({
     borderBottom: "1px solid #5A636A",
   },
   avatar: {
-    width: "40px",
-    height: "40px",
+    width: "30px",
+    height: "30px",
     marginRight: "12px",
   },
   displayName: {
-    fontSize: "14px",
+    fontSize: "11px",
     fontWeight: "bold",
     color: "#AFB3B7",
   },

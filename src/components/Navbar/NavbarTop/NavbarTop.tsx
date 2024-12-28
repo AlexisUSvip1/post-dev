@@ -1,43 +1,41 @@
 import React from "react";
-import { AppBar, Box, InputBase, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, InputBase, Toolbar } from "@mui/material";
 import { PositionLogo } from "../../../Utils/PositionLogo/PositionLogo";
-import { useAppSelector } from "../../../hook/useAppSelector";
+import { Add } from "@mui/icons-material"; // Import Add icon
+import { useStyles } from "./NavbarTop.styles";
+import { useTranslation } from "react-i18next";
+import { usePostModal } from "./NavbarTop.hooks";
+import { PostModal } from "../../CreatePost/Post";
 
 export const NavbarTop: React.FC = () => {
-  const user = useAppSelector((slice)=> slice.user)
+  const classes = useStyles();
+  const { t } = useTranslation();
+  const { handleOpenModal } = usePostModal();
 
-  console.log(user)
   return (
-    <AppBar 
-      position="sticky" 
-      color="primary" 
-      sx={{
-        width: '100%',
-        top: 0,
-        display: 'flex',
-        overflow:'hidden',
-        alignItems: 'center',
-        position:'absolute',
-        background:'transparent',
-        borderBottom: '2px solid #5A636A',
-      }}
-    >
-      <Toolbar sx={{ width: '100%', display: 'flex', position:'relative', justifyContent:'center', alignItems:'center' }}>
-       <Box><PositionLogo /></Box>
-       <Typography>{user.displayName}</Typography>
-        <Box position={'absolute'} left={'40%'}>
+    <AppBar position="sticky" className={classes.root}>
+      <Toolbar className={classes.toolbar}>
+        {/* Left Section: Logo */}
+        <Box className={classes.logoContainer}>
+          <PositionLogo />
+        </Box>
+
+        {/* Center Section: Search Bar */}
+        <Box>
           <InputBase
-            placeholder="Buscar..."
-            sx={{
-              padding: "6px 12px",
-              backgroundColor: "#5A636A",
-              borderRadius: "20px",
-              width: "400px",
-              color:'white',
-              fontWeight:'bold',
-            }}
+            placeholder={t("Buscar...")}
+            className={classes.searchBox}
           />
         </Box>
+
+        {/* Right Section: User Display Name and Button */}
+        <Box className={classes.rightSection}>
+          <Button className={classes.newPostButton} onClick={handleOpenModal}>
+            <Add className={classes.newPostIcon} />
+            New Post
+          </Button>
+        </Box>
+        <PostModal />
       </Toolbar>
     </AppBar>
   );

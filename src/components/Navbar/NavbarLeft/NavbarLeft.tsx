@@ -18,19 +18,17 @@ export const NavbarLeft: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      {/* Header con Avatar y Display Name */}
       <Box className={classes.header}>
         <Avatar
-          src={user.avatar_url || ""}
-          alt={user.displayName || "User Avatar"}
+          src={user.avatar_url}
+          alt={user.displayName}
           className={classes.avatar}
         />
         <Typography variant="body1" className={classes.displayName}>
-          {user.displayName || "Invitado"}
+          {user.displayName}
         </Typography>
       </Box>
 
-      {/* Enlaces del menú */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {[
           { path: "/feed", label: "Tu Feed", icon: HomeIcon },
@@ -65,7 +63,7 @@ export const NavbarLeft: React.FC = () => {
                 fontWeight: "bold",
               }}
             >
-              {link.label}
+              {t(link.label)}
             </Link>
           </Box>
         ))}

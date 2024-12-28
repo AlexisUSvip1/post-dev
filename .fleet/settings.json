@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        {
+            "type": "add",
+            "pluginName": "izhangzhihao.fleet.rainbow.brackets"
+        },
+        {
+            "type": "add",
+            "pluginName": "gradle.daemon.services"
+        },
+        {
+            "type": "add",
+            "pluginName": "com.github.catppuccin.fleet"
+        }
+    ]
+}

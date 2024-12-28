@@ -5,8 +5,7 @@ import { NavbarLeft } from "../Navbar/NavbarLeft/NavbarLeft";
 import { Homehook } from "./Home.hook";
 
 const Home: React.FC = () => {
-  const {loading, error } = Homehook();
-
+  const { loading, error } = Homehook();
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>{error}</div>;
 
@@ -15,7 +14,6 @@ const Home: React.FC = () => {
       <NavbarLeft />
       <Box display="flex" flexDirection="column" width="100%">
         <NavbarTop />
-        
       </Box>
     </Box>
   );
