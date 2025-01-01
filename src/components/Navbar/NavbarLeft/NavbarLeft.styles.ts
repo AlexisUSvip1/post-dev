@@ -10,7 +10,7 @@ export const useStyles = makeStyles({
     position: "relative",
     color: "#AFB3B7",
     fontWeight: "bold",
-    borderRight: "2px solid #5A636A",
+    borderRight: "0.5px solid #5A636A",
     top: 66,
     padding: "16px",
   },

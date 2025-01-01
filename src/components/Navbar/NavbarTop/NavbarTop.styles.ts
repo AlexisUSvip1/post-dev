@@ -9,7 +9,7 @@ export const useStyles = makeStyles({
     alignItems: "center",
     position: "absolute",
     background: "transparent",
-    borderBottom: "2px solid #5A636A",
+    borderBottom: "0.5px solid #5A636A",
   },
   toolbar: {
     width: "100%",

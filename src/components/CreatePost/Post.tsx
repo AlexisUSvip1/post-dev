@@ -1,62 +1,84 @@
-import { useState } from "react";
+import React from "react";
 import { Box, Typography, Modal, TextField, Button } from "@mui/material";
 import { usePostModal } from "../Navbar/NavbarTop/NavbarTop.hooks";
+import { usePostHook } from "./Post.hooks";
+import { useStyles } from "./Post.styles";
 
 export const PostModal = () => {
-  const { openPostModal, handleCloseModal, handleSetPostContent } =
-    usePostModal();
+  const { openPostModal, handleCloseModal } = usePostModal();
+  const { localContent, setLocalContent, handleSubmit } = usePostHook();
+  const classes = useStyles();
 
-  const [localContent, setLocalContent] = useState<string>("");
+  const techOptions = [
+    "React",
+    "Backend",
+    "Frontend",
+    "Node.js",
+    "Python",
+    "JavaScript",
+    "TypeScript",
+    "GraphQL",
+    "Docker",
+    "Kubernetes",
+    "C++",
+    "Java",
+    "PHP",
+    "Ruby",
+    "Swift",
+    "Go",
+    "Rust",
+    "Angular",
+    "Vue.js",
+    "SQL",
+  ];
 
-  const handleSubmit = () => {
-    handleSetPostContent(localContent);
-    handleCloseModal();
-    setLocalContent("");
-  };
-
-  console.log(openPostModal);
   return (
     <Modal
       open={openPostModal}
       onClose={handleCloseModal}
-      sx={{
-        backdropFilter: "blur(10px)", // Add blur effect to the background
-        backgroundColor: "rgba(87, 87, 87, 0)", // Add a semi-transparent overlay
-        display: "flex",
-        alignItems: "center",
-        zIndex: "10000",
-        justifyContent: "center",
-      }}
+      className={classes.modal}
     >
-      <Box
-        sx={{
-          width: "400px",
-          bgcolor: "background.paper",
-          borderRadius: "8px",
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-        <Typography variant="h6" mb={2}>
-          Create New Post
+      <Box className={classes.modalBox}>
+        <Typography variant="h6" className={classes.title}>
+          Create Your Own Post
         </Typography>
         <TextField
           fullWidth
-          multiline
-          rows={4}
           value={localContent}
+          className={classes.textField}
           onChange={(e) => setLocalContent(e.target.value)}
-          placeholder="What's on your mind?"
+          placeholder="Por favor inserta tu publicación"
           variant="outlined"
         />
-        <Box mt={2} display="flex" justifyContent="space-between">
-          <Button variant="contained" onClick={handleSubmit}>
-            Post
-          </Button>
-          <Button variant="outlined" onClick={handleCloseModal}>
-            Cancel
-          </Button>
+        <Box className={classes.techCarousel}>
+          {techOptions.map((option, index) => (
+            <Button
+              key={index}
+              variant="outlined"
+              className={classes.techButton}
+            >
+              {option.toLowerCase()}
+            </Button>
+          ))}
         </Box>
+        <TextField
+          fullWidth
+          multiline
+          rows={5}
+          value={localContent}
+          className={classes.textField}
+          onChange={(e) => setLocalContent(e.target.value)}
+          placeholder="Por favor inserta tu publicación"
+          variant="outlined"
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          className={classes.submitButton}
+        >
+          Submit
+        </Button>
       </Box>
     </Modal>
   );
