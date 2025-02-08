@@ -30,6 +30,19 @@ export const useStyles = makeStyles({
       color: "rgba(255, 255, 255, 0.41)",
     },
   },
+  textFieldArea: {
+    color: "white",
+    backgroundColor: "rgba(90,99,106,0.60)",
+    borderTopRightRadius: "30px",
+    borderTopLeftRadius: "30px",
+    "& .MuiOutlinedInput-root": {
+      borderTopRightRadius: "30px",
+      borderTopLeftRadius: "30px",
+    },
+    "& .MuiInputBase-input::placeholder": {
+      color: "rgba(255, 255, 255, 0.41)",
+    },
+  },
   techCarousel: {
     marginTop: "16px",
     display: "flex",
@@ -37,9 +50,9 @@ export const useStyles = makeStyles({
     gap: "8px",
     paddingBottom: "8px",
     marginBottom: "16px",
-    scrollbarWidth: "none", // Firefox
+    scrollbarWidth: "none",
     "&::-webkit-scrollbar": {
-      display: "none", // Chrome/Safari
+      display: "none",
     },
   },
   techButton: {
@@ -50,8 +63,20 @@ export const useStyles = makeStyles({
     borderRadius: "20px",
     whiteSpace: "nowrap",
   },
+  fileUpload: {
+    marginBottom: "16px",
+  },
+  fileButton: {
+    width: "100%",
+    color: "white",
+    borderBottomRightRadius: "30px",
+    borderBottomLeftRadius: "30px",
+    backgroundColor: "rgba(90,99,106,0.60)",
+    border: "none",
+  },
   submitButton: {
     marginTop: "16px",
     width: "100%",
+    borderRadius: "100px",
   },
 });

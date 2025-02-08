@@ -6,31 +6,16 @@ import { useStyles } from "./Post.styles";
 
 export const PostModal = () => {
   const { openPostModal, handleCloseModal } = usePostModal();
-  const { localContent, setLocalContent, handleSubmit } = usePostHook();
+  const { localContent, setLocalContent, handleSubmit, techOptions } =
+    usePostHook();
   const classes = useStyles();
 
-  const techOptions = [
-    "React",
-    "Backend",
-    "Frontend",
-    "Node.js",
-    "Python",
-    "JavaScript",
-    "TypeScript",
-    "GraphQL",
-    "Docker",
-    "Kubernetes",
-    "C++",
-    "Java",
-    "PHP",
-    "Ruby",
-    "Swift",
-    "Go",
-    "Rust",
-    "Angular",
-    "Vue.js",
-    "SQL",
-  ];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log("File selected:", file.name); // Procesa el archivo como desees
+    }
+  };
 
   return (
     <Modal
@@ -66,11 +51,21 @@ export const PostModal = () => {
           multiline
           rows={5}
           value={localContent}
-          className={classes.textField}
+          className={classes.textFieldArea}
           onChange={(e) => setLocalContent(e.target.value)}
           placeholder="Por favor inserta tu publicación"
           variant="outlined"
         />
+        <Box className={classes.fileUpload}>
+          <Button
+            variant="outlined"
+            component="label"
+            className={classes.fileButton}
+          >
+            Upload File
+            <input type="file" hidden onChange={handleFileChange} />
+          </Button>
+        </Box>
         <Button
           variant="contained"
           color="primary"
