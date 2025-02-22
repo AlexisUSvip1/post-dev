@@ -1,0 +1,21 @@
+:root {
+  --icon-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --icon-color: white;
+  }
+}
+
+/* Apply the dynamic color */
+img[src$="terminalPage.svg"] {
+  color: var(--icon-color);
+  filter: invert(0%); /* Default for light mode */
+}
+
+@media (prefers-color-scheme: dark) {
+  img[src$="terminalPage.svg"] {
+    filter: invert(100%); /* Makes black elements turn white */
+  }
+}

@@ -35,13 +35,22 @@ export const useStyles = makeStyles({
     backgroundColor: "rgba(90,99,106,0.60)",
     borderTopRightRadius: "30px",
     borderTopLeftRadius: "30px",
+    borderBottomLeftRadius: "4px",
+    borderBottomRightRadius: "4px",
     "& .MuiOutlinedInput-root": {
       borderTopRightRadius: "30px",
       borderTopLeftRadius: "30px",
+      borderBottomLeftRadius: "4px",
+      borderBottomRightRadius: "4px",
     },
     "& .MuiInputBase-input::placeholder": {
       color: "rgba(255, 255, 255, 0.41)",
     },
+  },
+  closeButton:  {
+    width: '20px',
+    color:'white',
+    marginBottom: '10px'
   },
   techCarousel: {
     marginTop: "16px",
@@ -78,5 +87,16 @@ export const useStyles = makeStyles({
     marginTop: "16px",
     width: "100%",
     borderRadius: "100px",
+    backgroundColor: "white",
+    color: "black",
+    transition: "transform 0.3s ease-in-out",
+    "&:disabled": {
+      backgroundColor: "#d3d3d3",
+      color: "#a1a1a1",
+      cursor: "not-allowed",
+    },
+    "&:hover": {
+      transform: "scale(1.0)",
+    },
   },
 });
