@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const LanguageSelector: React.FC = () => {
@@ -25,17 +25,19 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <Box position="absolute" top={10} right={20} zIndex={10000}>
-      <Button
-        onClick={handleClick}
-        sx={{
-          borderBottom: '2px solid #5A636A',
-          color: 'white',
-          fontWeight: 'bold',
-          borderRadius:0
-        }}
-      >
-        {selectedLanguage === 'en' ? '{ES}' : '{EN}'}
-      </Button>
+      <Tooltip title={selectedLanguage === 'en' ? 'English' : 'Español'} arrow>
+        <Button
+          onClick={handleClick}
+          sx={{
+            borderBottom: '2px solid #5A636A',
+            color: 'white',
+            fontWeight: 'bold',
+            borderRadius: 0,
+          }}
+        >
+          {selectedLanguage === 'en' ? '{EN}' : '{ES}'}
+        </Button>
+      </Tooltip>
 
       {/* Menú desplegable */}
       <Menu

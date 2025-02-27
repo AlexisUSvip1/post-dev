@@ -11,28 +11,23 @@ export const NavbarTop: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { handleOpenModal } = usePostModal();
-
   return (
     <AppBar position="sticky" className={classes.root}>
       <Toolbar className={classes.toolbar}>
-        {/* Left Section: Logo */}
         <Box className={classes.logoContainer}>
           <PositionLogo />
         </Box>
 
-        {/* Center Section: Search Bar */}
         <Box>
           <InputBase
             placeholder={t("Buscar...")}
             className={classes.searchBox}
           />
         </Box>
-
-        {/* Right Section: User Display Name and Button */}
         <Box className={classes.rightSection}>
           <Button className={classes.newPostButton} onClick={handleOpenModal}>
             <Add className={classes.newPostIcon} />
-            New Post
+            {t("Nuevo Post")}
           </Button>
         </Box>
         <PostModal />

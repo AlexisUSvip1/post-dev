@@ -1,0 +1,97 @@
+import { makeStyles } from "@mui/styles";
+export const useStyles = makeStyles({
+  newsPost: {
+    position: "relative",
+    top: "8%",
+    width: "85%",
+    height: "90vh",
+    left: "14%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start", 
+    overflow: "hidden",
+  },
+  postsContainer: {
+    width: "90%",
+    maxHeight: "90%",
+    overflowY: "auto",
+    padding: "10px",
+    display: "flex",
+    justifyContent:'center',
+    flexWrap:'wrap',
+    flexDirection: "row",
+    gap: "15px",
+  },
+  postCard: {
+    padding: "15px",
+    borderRadius: "10px",
+    width: "256px",
+    height: "auto", 
+    background:"rgba(90,99,106,0.30)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    borderRadius: "50%",
+    width: "40px",
+    height: "40px",
+  },
+  containerImagesPost: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    maxHeight: "250px",
+    overflow: "hidden",
+    borderRadius: "8px",
+    flexGrow: 1, // 📌 Empuja el contenido hacia arriba,
+    flexDirection:'column'
+  },
+  fullImage: {
+    width: "100%",  // Ocupa todo el contenedor
+    height: "85%",
+    objectFit: "cover",
+    borderRadius: "15px",
+  },
+  multiImageContainer: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+    gap: "5px",
+    width: "100%",
+    height: "100%",
+  },
+  multiImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: "8px",
+  },
+  moreImagesOverlay: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "rgba(0, 0, 0, 0.6)",
+    color: "white",
+    fontSize: "18px",
+    fontWeight: "bold",
+    borderRadius: "8px",
+  },
+  postImage: {
+    maxWidth: "100%",
+    maxHeight: "100%", 
+    objectFit: "contain",
+    borderRadius: "100px",
+  },
+    imagePreview: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      borderRadius: "100px",
+    },
+    iconContainer:{
+      display: 'flex',
+      width:'100%',
+      alignSelf:'flex-start',
+    }
+});

@@ -43,7 +43,7 @@ const FaviconUpdater = () => {
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <StrictMode>
-      <FaviconUpdater /> {/* Ensures favicon changes dynamically */}
+      <FaviconUpdater /> 
       <App />
     </StrictMode>
   </Provider>

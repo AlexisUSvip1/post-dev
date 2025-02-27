@@ -10,7 +10,7 @@ export const useStyles = makeStyles({
     justifyContent: "center",
   },
   modalBox: {
-    width: "500px",
+    width: "650px",
     backgroundColor: "#0D1F23",
     borderRadius: "30px",
     padding: "16px",
@@ -18,6 +18,7 @@ export const useStyles = makeStyles({
   },
   title: {
     marginBottom: "16px",
+    color: "white",
   },
   textField: {
     color: "white",
@@ -33,24 +34,18 @@ export const useStyles = makeStyles({
   textFieldArea: {
     color: "white",
     backgroundColor: "rgba(90,99,106,0.60)",
-    borderTopRightRadius: "30px",
-    borderTopLeftRadius: "30px",
-    borderBottomLeftRadius: "4px",
-    borderBottomRightRadius: "4px",
+    borderRadius: "30px",
     "& .MuiOutlinedInput-root": {
-      borderTopRightRadius: "30px",
-      borderTopLeftRadius: "30px",
-      borderBottomLeftRadius: "4px",
-      borderBottomRightRadius: "4px",
+      borderRadius: "30px",
     },
     "& .MuiInputBase-input::placeholder": {
       color: "rgba(255, 255, 255, 0.41)",
     },
   },
-  closeButton:  {
-    width: '20px',
-    color:'white',
-    marginBottom: '10px'
+  closeButton: {
+    width: "20px",
+    color: "white",
+    marginBottom: "10px",
   },
   techCarousel: {
     marginTop: "16px",
@@ -73,22 +68,66 @@ export const useStyles = makeStyles({
     whiteSpace: "nowrap",
   },
   fileUpload: {
-    marginBottom: "16px",
+    position: "absolute",
+    bottom: "2px",
+    width: "97%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderTop: "2px solid white",
+    paddingTop: "5px",
   },
   fileButton: {
-    width: "100%",
     color: "white",
-    borderBottomRightRadius: "30px",
-    borderBottomLeftRadius: "30px",
-    backgroundColor: "rgba(90,99,106,0.60)",
-    border: "none",
   },
-  submitButton: {
-    marginTop: "16px",
-    width: "100%",
+  imagePreview: {
+    width: "50px",
+    height: "50px",
     borderRadius: "100px",
-    backgroundColor: "white",
-    color: "black",
+    objectFit: "cover",
+    marginLeft: "15px",
+  },
+  textContainer: {
+    backgroundColor: "rgba(90,99,106,0.60)",
+    height: "305px",
+    borderRadius: "30px",
+    position: "relative",
+    paddingBottom: "50px",
+  },
+  techButtonSelected: {
+    minWidth: "110px",
+    height: "30px",
+    color: "white",
+    backgroundColor: "rgba(255, 255, 255, 0.6)", // Color más claro al seleccionarlo
+    borderRadius: "20px",
+    whiteSpace: "nowrap",
+    border: "2px solid white", // Puedes ajustar el borde para mayor claridad
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.8)",
+    },
+  },
+  ImagePost: {
+    width: "50%",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  },
+  moreFilesCircle: {
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    fontSize: "16px",
+  },
+  buttonPost:{
+    background:'#0D1F23',
+    color:'white',
+    fontSize:'10px',
+    borderRadius:'16px',
     transition: "transform 0.3s ease-in-out",
     "&:disabled": {
       backgroundColor: "#d3d3d3",
@@ -98,5 +137,5 @@ export const useStyles = makeStyles({
     "&:hover": {
       transform: "scale(1.0)",
     },
-  },
+  }
 });
