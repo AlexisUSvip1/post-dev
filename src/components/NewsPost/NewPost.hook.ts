@@ -1,48 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { Post, UseNewPostHook } from './NewPost.types';
+import { GetFetch } from '../../Utils/Fetch/fetch';
 
-export const useNewPostHook = () => {
-  const [posts, setPosts] = useState([]);
+export const useNewPostHook = (): UseNewPostHook => {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [viewPost, setViewPost] = useState<boolean>(false)
-  // URL del backend con variable de entorno
 
   const getPosts = async (): Promise<void> => {
     setLoading(true);
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error("No authentication token found, please log in.");
+        throw new Error('No authentication token found, please log in.');
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev-get`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const data = await GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev-get`, token);
 
-      if (!response.ok) {
-        throw new Error("Error fetching posts");
-      }
-
-      const data = await response.json();
-      setPosts(data); // Guardar los posts en el estado
+      setPosts(data);
     } catch (error) {
-      setError(error.message);
-      console.error("Error fetching posts:", error);
+      setError(error.message || 'Error fetching posts');
+      console.error('Error fetching posts:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Llamar la función al montar el componente
   useEffect(() => {
     getPosts();
   }, []);
 
-  return { posts, loading, error, getPosts,setViewPost };
+  return { posts, loading, error, getPosts };
 };
