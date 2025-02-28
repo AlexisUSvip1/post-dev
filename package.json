@@ -22,6 +22,8 @@
     "i18next": "^24.2.0",
     "i18next-browser-languagedetector": "^8.0.2",
     "jwt-decode": "^4.0.0",
+    "loadsh": "^0.0.4",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",

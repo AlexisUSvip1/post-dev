@@ -1,23 +1,44 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useStyles } from './NewsPost.styles';
 import { useNewPostHook } from './NewPost.hook';
-import { Box, Typography, CircularProgress, IconButton } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { Post } from './NewPost.types';
+import { BaseEmpty } from '../../Utils/BaseEmpty/BaseEmpty';
+import { NewsPostSkeleton } from '../../Utils/Skeletor/SkeletorPost/SkeletorPost';
 
 export const NewPosts = () => {
   const { posts, loading, error } = useNewPostHook();
   const classes = useStyles();
 
-  if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
+
+  if (loading) {
+    return (
+      <Box className={classes.newsPost}>
+        <Box className={classes.postsContainer}>
+          {[...Array(7)].map((_, index) => (
+            <NewsPostSkeleton key={index} />
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
+  {
+    !loading && posts.length === 0 && (
+      <Box className={classes.baseEmpty}>
+        <BaseEmpty />
+      </Box>
+    );
+  }
 
   return (
     <Box className={classes.newsPost}>
       <Box className={classes.postsContainer}>
-        {posts.length > 0 ? (
+        {posts.length > 0 &&
           posts.map((post: Post) => (
             <Box key={post._id} className={classes.postCard}>
               <Box display="flex" alignItems="center" gap={2} mb={2} width="100%">
@@ -96,10 +117,7 @@ export const NewPosts = () => {
                 </IconButton>
               </Box>
             </Box>
-          ))
-        ) : (
-          <Typography>No hay publicaciones disponibles.</Typography>
-        )}
+          ))}
       </Box>
     </Box>
   );

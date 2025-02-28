@@ -1,22 +1,25 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Login } from "./components/Login/Login.tsx";
-import Home from "./components/Home/Home.tsx";
-import "./App.css";
-import LanguageSelector from "./Utils/Lenguages/LenguageSelector.tsx";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Login } from './components/Login/Login.tsx';
+import Home from './components/Home/Home.tsx';
+import './App.css';
+import LanguageSelector from './Utils/Lenguages/LenguageSelector.tsx';
+import { checkTokenExpiration } from './Utils/ValidatorToken/ValidatorToken.tsx';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   return token ? <>{children}</> : <Navigate to="/" />;
 };
+console.log('Token en storage:', localStorage.getItem('token'));
+console.log('Expiración en storage:', localStorage.getItem('expiresAt'));
+console.log('Hora actual:', Date.now());
 
 function App() {
   return (
-
     <div className="containerApp">
       <LanguageSelector />
       <Router>
@@ -25,7 +28,9 @@ function App() {
           <Route
             path="/home"
             element={
-              <ProtectedRoute><Home /></ProtectedRoute>
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
             }
           />
         </Routes>
