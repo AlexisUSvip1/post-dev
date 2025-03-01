@@ -5,17 +5,20 @@ export const useLoginHook = () => {
     window.open(googleLoginUrl, '_blank', 'width=500,height=600');
 
     window.addEventListener('message', (event) => {
-      if (event.origin !== 'http://localhost:3000') return; // Ensure the message is from your backend
+      if (event.origin !== 'http://localhost:3000') return;
 
       const token = event.data;
       console.log('Token recibido:', token);
 
-      // Save the token in localStorage
-      localStorage.setItem('token', token);
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      const expiresAt = decodedToken.exp * 1000;
 
-      // Redirect to the home page
+      localStorage.setItem('token', token);
+      localStorage.setItem('expiresAt', expiresAt.toString());
+
       window.location.href = '/home';
     });
   };
+
   return { handleGoogleLogin };
 };

@@ -18,4 +18,6 @@ export interface UseNewPostHook {
   loading: boolean;
   error: string | null;
   getPosts: () => Promise<void>;
+  likedPosts: { [key: string]: boolean };
+  handleLikePost: (postId: string) => void;
 }

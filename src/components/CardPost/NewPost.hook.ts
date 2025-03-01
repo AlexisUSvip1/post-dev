@@ -6,6 +6,7 @@ export const useNewPostHook = (): UseNewPostHook => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   const getPosts = async (): Promise<void> => {
     setLoading(true);
@@ -25,9 +26,16 @@ export const useNewPostHook = (): UseNewPostHook => {
     }
   };
 
+  const handleLikePost = (postId: string): void => {
+    setLikedPosts((prevState) => ({
+      ...prevState,
+      [postId]: !prevState[postId], // Alterna el estado del like por cada postId
+    }));
+  };
+
   useEffect(() => {
     getPosts();
   }, []);
 
-  return { posts, loading, error, getPosts };
+  return { posts, loading, error, getPosts, likedPosts, handleLikePost };
 };

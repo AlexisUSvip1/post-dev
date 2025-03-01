@@ -1,10 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Login } from './components/Login/Login.tsx';
 import Home from './components/Home/Home.tsx';
 import './App.css';
 import LanguageSelector from './Utils/Lenguages/LenguageSelector.tsx';
-import { checkTokenExpiration } from './Utils/ValidatorToken/ValidatorToken.tsx';
+import AuthWatcher from './Utils/ValidatorToken/AuthWrapper.tsx';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,15 +14,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const token = localStorage.getItem('token');
   return token ? <>{children}</> : <Navigate to="/" />;
 };
-console.log('Token en storage:', localStorage.getItem('token'));
-console.log('Expiración en storage:', localStorage.getItem('expiresAt'));
-console.log('Hora actual:', Date.now());
 
 function App() {
   return (
-    <div className="containerApp">
-      <LanguageSelector />
-      <Router>
+    <Router>
+      <AuthWatcher />
+      <div className="containerApp">
+        <LanguageSelector />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route
@@ -34,8 +32,8 @@ function App() {
             }
           />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
 
