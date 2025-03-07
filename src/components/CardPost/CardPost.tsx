@@ -1,17 +1,20 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, Button } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { useNewPostHook } from './NewPost.hook';
-import { useStyles } from './NewsPost.styles';
+import { useNewPostHook } from './CardPost.hook';
+import { useStyles } from './CardPost.styles';
 import { BaseEmpty } from '../../Utils/BaseEmpty/BaseEmpty';
 import { NewsPostSkeleton } from '../../Utils/Skeletor/SkeletorPost/SkeletorPost';
-
+import { ShowModalPost } from './ShowModalPost/ShowModalPost';
+import { useState } from 'react';
 export const NewPosts = () => {
-  const { posts, loading, error, handleLikePost, likedPosts } = useNewPostHook();
+  const { posts, loading, error, handleLikePost, likedPosts, setShowModal, showModal } =
+    useNewPostHook();
   const classes = useStyles();
+  const [selectedPost, setSelectedPost] = useState(null); // 📌 Estado para guardar el post seleccionado
 
   if (error) return <Typography color="error">{error}</Typography>;
 
@@ -64,6 +67,10 @@ export const NewPosts = () => {
                     src={`${import.meta.env.VITE_BACKEND_URL}${post.media[0].url}`}
                     alt="Post Media"
                     className={classes.fullImage}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      setShowModal(true);
+                    }}
                   />
                 )}
 
@@ -75,11 +82,14 @@ export const NewPosts = () => {
                         src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
                         alt="Post Media"
                         className={classes.multiImage}
+                        onClick={() => {
+                          setSelectedPost(post); // 📌 Guarda el post seleccionado
+                          setShowModal(true); // 📌 Abre el modal
+                        }}
                       />
                     ))}
                   </Box>
                 )}
-
                 {post.media.length > 3 && (
                   <Box className={classes.multiImageContainer}>
                     {post.media
@@ -92,22 +102,47 @@ export const NewPosts = () => {
                           className={classes.multiImage}
                         />
                       ))}
-                    <Box className={classes.moreImagesOverlay}>
+                    <Button
+                      className={classes.moreImagesOverlay}
+                      onClick={() => {
+                        setSelectedPost(post); // 📌 Guarda el post seleccionado
+                        setShowModal(true); // 📌 Abre el modal
+                      }}
+                    >
                       <Typography>+{post.media.length - 3}</Typography>
-                    </Box>
+                    </Button>
                   </Box>
                 )}
               </Box>
             )}
-            {/* 🔹 Sección de iconos */}
+            <Box display={'flex'} gap={0} alignSelf={'flex-start'}>
+              {Array.isArray(post.tags)
+                ? post.tags.map((tag: string, index: number) => (
+                    <Typography
+                      key={index}
+                      sx={{
+                        color: 'white',
+                        backgroundColor: 'rgba(90,99,106,0.40)',
+                        borderRadius: '20px',
+                        width: '60px',
+                        textAlign: 'center',
+                        marginTop: '10px',
+                        fontSize: '13px',
+                      }}
+                    >
+                      {tag}
+                    </Typography>
+                  ))
+                : null}
+            </Box>
             <Box className={classes.iconContainer}>
-              <IconButton onClick={() => handleLikePost(post._id)}>
-                {likedPosts ? (
-                  <FavoriteIcon sx={{ color: 'white' }} />
+              <IconButton onClick={(event) => handleLikePost(event, post._id)} type="submit">
+                {likedPosts[post._id] ? (
+                  <FavoriteIcon sx={{ color: 'red' }} />
                 ) : (
                   <FavoriteBorderIcon sx={{ color: 'white' }} />
                 )}
-                <Typography sx={{ color: 'white', ml: 0.5 }}>5</Typography>
+                <Typography sx={{ color: 'white', ml: 0.5 }}>{post.total_likes || 0}</Typography>{' '}
               </IconButton>
               <IconButton>
                 <ChatBubbleOutlineIcon sx={{ color: 'white' }} />
@@ -121,6 +156,12 @@ export const NewPosts = () => {
           </Box>
         ))}
       </Box>
+      <ShowModalPost
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        title="Más imágenes"
+        post={selectedPost} // 📌 Pasamos el post seleccionado
+      ></ShowModalPost>
     </Box>
   );
 };

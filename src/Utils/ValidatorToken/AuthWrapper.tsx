@@ -48,7 +48,7 @@ const AuthWatcher = () => {
     };
 
     const handleInvalidRoutes = () => {
-      const validRoutes = ['/', '/home']; // Agrega aquí todas las rutas válidas
+      const validRoutes = ['/', '/home', '/save']; // Agrega aquí todas las rutas válidas
       if (!validRoutes.includes(location.pathname)) {
         navigate('/home'); // Si la ruta no es válida, redirige a home
       }

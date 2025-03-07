@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface Post {
   _id: string;
   title: string;
@@ -11,6 +13,9 @@ export interface Post {
   error: string | null;
   viewPost: boolean;
   setViewPost: boolean;
+  total_likes: number;
+  likedBy?: string[];
+  tags: string[];
 }
 
 export interface UseNewPostHook {
@@ -19,5 +24,7 @@ export interface UseNewPostHook {
   error: string | null;
   getPosts: () => Promise<void>;
   likedPosts: { [key: string]: boolean };
-  handleLikePost: (postId: string) => void;
+  handleLikePost: (event: React.MouseEvent<HTMLButtonElement>, postId: string) => Promise<void>;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }

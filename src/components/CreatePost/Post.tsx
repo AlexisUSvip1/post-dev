@@ -1,29 +1,34 @@
-import React from "react";
-import { 
-  Box, Typography, Modal, TextField, Button, IconButton 
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { usePostModal } from "../Navbar/NavbarTop/NavbarTop.hooks";
-import { usePostHook } from "./Post.hooks";
-import { useStyles } from "./Post.styles";
-import { useTranslation } from "react-i18next";
+/* eslint-disable react/react-in-jsx-scope */
+import { Box, Typography, Modal, TextField, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { usePostModal } from '../Navbar/NavbarTop/NavbarTop.hooks';
+import { usePostHook } from './Post.hooks';
+import { useStyles } from './Post.styles';
+import { useTranslation } from 'react-i18next';
 
 export const PostModal = () => {
   const { openPostModal, handleCloseModal } = usePostModal();
-  const { 
-    localContent, setLocalContent, handleSubmit, techOptions, 
-    setTextContent, fileSelected, contFiles, textContent, 
-    imagePreviews, handleFileChange, addTags, setAddTags 
+  const {
+    localContent,
+    setLocalContent,
+    handleSubmit,
+    techOptions,
+    setTextContent,
+    fileSelected,
+    contFiles,
+    textContent,
+    imagePreviews,
+    handleFileChange,
+    addTags,
+    setAddTags,
+    loadingSubmit,
   } = usePostHook();
   const classes = useStyles();
   const { t } = useTranslation();
 
   const toggleTag = (tag: string) => {
-    setAddTags(addTags.includes(tag) 
-      ? addTags.filter((t) => t !== tag) 
-      : [...addTags, tag]
-    );
+    setAddTags(addTags.includes(tag) ? addTags.filter((t) => t !== tag) : [...addTags, tag]);
   };
 
   return (
@@ -32,7 +37,7 @@ export const PostModal = () => {
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" className={classes.title}>
-            {t("Crea tu propia publicación")}
+            {t('Crea tu propia publicación')}
           </Typography>
           <IconButton onClick={handleCloseModal} className={classes.closeButton}>
             <CloseIcon />
@@ -45,7 +50,7 @@ export const PostModal = () => {
           value={localContent}
           className={classes.textField}
           onChange={(e) => setLocalContent(e.target.value)}
-          placeholder={t("Por favor inserta tu título")}
+          placeholder={t('Por favor inserta tu título')}
           variant="outlined"
         />
 
@@ -73,18 +78,24 @@ export const PostModal = () => {
             inputProps={{ maxLength: 574 }}
             className={classes.textFieldArea}
             onChange={(e) => setTextContent(e.target.value)}
-            placeholder={t("Por favor inserta tu publicación")}
+            placeholder={t('Por favor inserta tu publicación')}
             variant="outlined"
           />
 
           {/* Subida de archivos */}
-          <Box 
-            className={classes.fileUpload} 
-            position="absolute" 
-            bottom={0} 
-            right={0} 
-            p={1} 
-            sx={{ borderTop: "2px solid white", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}
+          <Box
+            className={classes.fileUpload}
+            position="absolute"
+            bottom={0}
+            right={0}
+            p={1}
+            sx={{
+              borderTop: '2px solid white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
           >
             {/* Previsualización de imágenes */}
             <Box display="flex" alignItems="center" gap="5px">
@@ -100,12 +111,20 @@ export const PostModal = () => {
 
             {/* Botones de subir archivo y publicar */}
             <Box>
-              <Button 
-                className={classes.buttonPost} 
-                onClick={handleSubmit} 
+              <Button
+                className={classes.buttonPost}
+                onClick={handleSubmit}
                 disabled={!textContent.trim() && !fileSelected}
               >
-                {t("Publicar Post")}
+                {loadingSubmit ? (
+                  <Typography>
+                    <span className={classes.loadingDots}>.</span>
+                    <span className={classes.loadingDots}>.</span>
+                    <span className={classes.loadingDots}>.</span>
+                  </Typography>
+                ) : (
+                  t('Publicar Post')
+                )}
               </Button>
               <IconButton component="label" className={classes.fileButton}>
                 <AttachFileIcon />
