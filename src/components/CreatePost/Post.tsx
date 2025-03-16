@@ -23,6 +23,7 @@ export const PostModal = () => {
     addTags,
     setAddTags,
     loadingSubmit,
+    handleDeleteFilePost,
   } = usePostHook();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -105,7 +106,25 @@ export const PostModal = () => {
                 </Box>
               )}
               {imagePreviews.map((preview, index) => (
-                <img key={index} src={preview} alt="Preview" className={classes.imagePreview} />
+                <Box key={index}>
+                  <Box sx={{ position: 'absolute' }}>
+                    <IconButton
+                      onClick={() => handleDeleteFilePost(preview)}
+                      sx={{
+                        position: 'relative',
+                        zIndex: '999',
+                        color: 'white',
+                        background: 'black',
+                        width: '12px',
+                        height: '12px',
+                        left: '55px',
+                      }}
+                    >
+                      <CloseIcon sx={{ fontSize: '14px' }} />
+                    </IconButton>
+                  </Box>
+                  <img key={index} src={preview} alt="Preview" className={classes.imagePreview} />
+                </Box>
               ))}
             </Box>
 

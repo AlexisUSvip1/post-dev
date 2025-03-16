@@ -24,7 +24,18 @@ export interface UseNewPostHook {
   error: string | null;
   getPosts: () => Promise<void>;
   likedPosts: { [key: string]: boolean };
-  handleLikePost: (event: React.MouseEvent<HTMLButtonElement>, postId: string) => Promise<void>;
+  handleLikePost: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    postId: string
+  ) => Promise<void>;
+  handleOpenCommentModal: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    postId: string,
+    open: boolean
+  ) => void;
   showModal: boolean;
+  postId: string;
   setShowModal: Dispatch<SetStateAction<boolean>>;
+  setOpenCommentsPost: Dispatch<SetStateAction<boolean>>;
+  openCommentsPost: boolean;
 }

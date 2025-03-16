@@ -1,48 +1,123 @@
-import React from 'react';
-import { Box, Modal, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from "react";
+import { Box, Modal, Typography, IconButton, Slide } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useStyles } from "./ShowModalPost.styles";
+import { ActionPost } from "../../../Utils/ActionsPost/ActionPost";
+import { Post } from "../CardPost.types";
 
-interface ReusableModalProps {
-  open: boolean;
-  onClose: () => void;
+export interface ReusableModalProps {
+  open?: boolean;
+  onClose?: () => void;
   title?: string;
-  post?: any; // 📌 Se agrega el post como prop opcional
+  post?: Post;
 }
 
-export const ShowModalPost: React.FC<ReusableModalProps> = ({ open, onClose, title, post }) => {
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={{ padding: '20px', backgroundColor: '#333', color: 'white', borderRadius: '8px' }}>
-        {/* Header del Modal */}
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">{title}</Typography>
-          <IconButton onClick={onClose}>
-            <CloseIcon sx={{ color: 'white' }} />
-          </IconButton>
-        </Box>
+export const ShowModalPost: React.FC<ReusableModalProps> = ({
+  open,
+  onClose,
+  post,
+}) => {
+  const classes = useStyles();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-        {/* Contenido del Modal */}
+  const handleNext = () => {
+    if (post?.media && currentIndex < post.media.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  return (
+    <Modal open={open} onClose={onClose} className={classes.modal}>
+      <Box className={classes.modalBox}>
         {post ? (
           <Box>
-            <Typography variant="h5">{post.title}</Typography>
-            <Typography color="gray">{new Date(post.created_at).toLocaleDateString()}</Typography>
-
+            <Box
+              sx={{
+                width: "90%",
+                margin: "auto",
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                justifyContent: "space-between",
+              }}
+            >
+              <Box
+                display={"flex"}
+                justifyContent="center"
+                alignItems={"center"}
+                gap={1}
+              >
+                <img
+                  src={post.user_avatar}
+                  className={classes.containerImage}
+                />
+                <Box>
+                  <Typography variant="h5">{post.usernameUser}</Typography>
+                  <Typography color="gray">
+                    {new Date(post.created_at).toLocaleDateString()}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box>
+                <IconButton onClick={onClose}>
+                  <CloseIcon sx={{ color: "white" }} />
+                </IconButton>
+              </Box>
+            </Box>
+            <Box sx={{ width: "90%", margin: "auto", mt: 2 }}>
+              <Typography>{post.body}</Typography>
+            </Box>
             {post.media && post.media.length > 0 && (
-              <Box display="flex" flexDirection="column" gap={2} mt={2}>
-                {post.media.map((image: { url: string }, index: number) => (
-                  <img
-                    key={index}
-                    src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
-                    alt="Post Media"
-                    style={{ width: '100%', borderRadius: '8px' }}
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                mt={2}
+              >
+                <IconButton onClick={handlePrev} disabled={currentIndex === 0}>
+                  <ArrowBackIosIcon
+                    sx={{ color: currentIndex === 0 ? "gray" : "white" }}
                   />
-                ))}
+                </IconButton>
+                <Slide direction="left" in={true} mountOnEnter unmountOnExit>
+                  <Box>
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_URL}${
+                        post.media[currentIndex].url
+                      }`}
+                      alt="Post Media"
+                      style={{ width: "100%", borderRadius: "8px" }}
+                    />
+                  </Box>
+                </Slide>
+                <IconButton
+                  onClick={handleNext}
+                  disabled={currentIndex === post.media.length - 1}
+                >
+                  <ArrowForwardIosIcon
+                    sx={{
+                      color:
+                        currentIndex === post.media.length - 1
+                          ? "gray"
+                          : "white",
+                    }}
+                  />
+                </IconButton>
               </Box>
             )}
           </Box>
         ) : (
           <Typography>No hay información del post.</Typography>
         )}
+        <ActionPost />
       </Box>
     </Modal>
   );

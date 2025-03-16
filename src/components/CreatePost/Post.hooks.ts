@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { usePostModal } from '../Navbar/NavbarTop/NavbarTop.hooks';
-import { useAppSelector } from '../../hook/useAppSelector';
-import { PostHook } from './Post.types';
-import { techOptions } from '../../Utils/Tags/Tags';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from "react";
+import { usePostModal } from "../Navbar/NavbarTop/NavbarTop.hooks";
+import { useAppSelector } from "../../hook/useAppSelector";
+import { PostHook } from "./Post.types";
+import { techOptions } from "../../Utils/Tags/Tags";
 
 export const usePostHook = (): PostHook => {
-  const [localContent, setLocalContent] = useState<string>('');
-  const [textContent, setTextContent] = useState<string>('');
+  const [localContent, setLocalContent] = useState<string>("");
+  const [textContent, setTextContent] = useState<string>("");
   const [addTags, setAddTags] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -38,38 +39,58 @@ export const usePostHook = (): PostHook => {
     });
   };
 
+  const handleDeleteFilePost = (previewImage: string): void => {
+    setImagePreviews((prevPreviews) =>
+      prevPreviews.filter((img) => img !== previewImage)
+    );
+    setImageFiles((prevFiles) =>
+      prevFiles.filter((file, _index) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return reader.result !== previewImage;
+      })
+    );
+    setContFiles((prevCount) => prevCount - 1);
+    setFileSelected(imagePreviews.length - 1 > 0);
+  };
+
   const handleSubmit = async (): Promise<void> => {
     setLoadingSubmit(true);
     try {
-      if (!user?.id) throw new Error('User ID is undefined');
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('No authentication token found, please log in.');
+      if (!user?.id) throw new Error("User ID is undefined");
+      const token = localStorage.getItem("token");
+      if (!token)
+        throw new Error("No authentication token found, please log in.");
 
       const formData = new FormData();
-      formData.append('user_id', user.id.toString());
-      formData.append('title', localContent);
-      formData.append('body', textContent);
-      addTags.forEach((tag) => formData.append('tags', tag));
-      imageFiles.forEach((file) => formData.append('files', file));
+      formData.append("user_id", user.id.toString());
+      formData.append("title", localContent);
+      formData.append("body", textContent);
+      addTags.forEach((tag) => formData.append("tags", tag));
+      imageFiles.forEach((file) => formData.append("files", file));
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/post-dev`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        }
+      );
 
       const responseText = await response.text();
-      console.log('Raw server response:', responseText);
+      console.log("Raw server response:", responseText);
 
-      if (!response.ok) throw new Error('Failed to create post');
+      if (!response.ok) throw new Error("Failed to create post");
       handleSetPostContent(localContent);
       handleCloseModal();
-      setLocalContent('');
-      setTextContent('');
+      setLocalContent("");
+      setTextContent("");
       setAddTags([]);
       setImageFiles([]);
+      window.location.reload();
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error("Error creating post:", error);
     }
     setLoadingSubmit(false);
   };
@@ -88,5 +109,6 @@ export const usePostHook = (): PostHook => {
     contFiles,
     imagePreviews,
     handleFileChange,
+    handleDeleteFilePost,
   };
 };

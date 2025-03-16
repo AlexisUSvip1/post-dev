@@ -86,6 +86,7 @@ export const useStyles = makeStyles({
     borderRadius: '100px',
     objectFit: 'cover',
     marginLeft: '15px',
+    position: 'relative',
   },
   textContainer: {
     backgroundColor: 'rgba(90,99,106,0.60)',

@@ -19,6 +19,7 @@ export interface PostHook {
   imagePreviews: string[];
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   loadingSubmit: boolean;
+  handleDeleteFilePost: (previewImage: string) => void;
 }
 
 export interface TechButtonProps {
