@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Box, Typography } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useStyles } from '../components/Navbar/NavbarLeft/NavbarLeft.styles';
 import { useNavigate } from 'react-router-dom';
+import { useStyles } from '../Navbar/NavbarLeft/NavbarLeft.styles';
 
 export const Logout = () => {
   const classes = useStyles();
@@ -22,7 +22,7 @@ export const Logout = () => {
       position={'absolute'}
       bottom={0}
       className={classes.containerLogout}
-      onClick={handleLogout} // Maneja el logout cuando el usuario hace clic
+      onClick={handleLogout}
     >
       <ExitToAppIcon sx={{ width: '16px', height: '16px' }} />
       <Typography className={classes.link}>Sign Out</Typography>

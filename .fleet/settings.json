@@ -11,6 +11,42 @@
         {
             "type": "add",
             "pluginName": "com.github.catppuccin.fleet"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.eslint"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.json"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.prettier"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.react"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.codecanvas"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.webpack"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.themeDesigner"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.css"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.dap"
         }
     ]
 }

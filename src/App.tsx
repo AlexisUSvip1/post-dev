@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './components/Login/Login.tsx';
 import Home from './components/Home/Home.tsx';
 import './App.css';
 import LanguageSelector from './Utils/Lenguages/LenguageSelector.tsx';
 import AuthWatcher from './Utils/ValidatorToken/AuthWrapper.tsx';
+import { SavedPost } from './components/SavedPost/SavedPost.tsx';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,6 +24,14 @@ function App() {
         <LanguageSelector />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route
+            path="/save"
+            element={
+              <ProtectedRoute>
+                <SavedPost />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/home"
             element={

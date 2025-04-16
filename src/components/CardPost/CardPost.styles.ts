@@ -1,14 +1,15 @@
 import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
   newsPost: {
-    position: 'absolute',
+    position: 'relative',
     top: '8%',
     width: '75%',
     height: '90vh',
-    left: '10%',
+    left: '1%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    flexDirection: 'column',
     overflow: 'hidden',
   },
   postsContainer: {

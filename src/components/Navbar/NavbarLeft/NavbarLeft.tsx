@@ -8,7 +8,7 @@ import FireIcon from '../../../assets/fireIcon.svg';
 import ExplorerIcon from '../../../assets/explorerIcon.svg';
 import SaveIcon from '../../../assets/saveIcon.svg';
 import { useTranslation } from 'react-i18next';
-import { Logout } from '../../../Logout/Logout';
+import { Logout } from '../../Logout/Logout';
 
 export const NavbarLeft: React.FC = () => {
   const user = useAppSelector((state) => state.user);

@@ -1,7 +1,7 @@
-import React from "react";
-import { Box, Modal, Typography, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { useStyles } from "./Post.styles";
+import React from 'react';
+import { Box, Modal, Typography, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useStyles } from '../../components/CreatePost/Post.styles';
 
 interface ReusableModalProps {
   open: boolean;
@@ -27,9 +27,7 @@ export const ReusableModal: React.FC<ReusableModalProps> = ({ open, onClose, tit
         </Box>
 
         {/* Contenido del Modal */}
-        <Box className={classes.modalContent}>
-          {children}
-        </Box>
+        <Box className={classes.modalContent}>{children}</Box>
       </Box>
     </Modal>
   );
