@@ -15,6 +15,7 @@ export interface Post {
   setViewPost: boolean;
   total_likes: number;
   likedBy?: string[];
+  savedPost?: boolean;
   tags: string[];
 }
 
@@ -24,6 +25,7 @@ export interface UseNewPostHook {
   error: string | null;
   getPosts: () => Promise<void>;
   likedPosts: { [key: string]: boolean };
+  savedPosts: { [key: string]: boolean };
   handleLikePost: (
     event: React.MouseEvent<HTMLButtonElement>,
     postId: string
@@ -33,6 +35,10 @@ export interface UseNewPostHook {
     postId: string,
     open: boolean
   ) => void;
+  handleSavePost: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    postId: string
+  ) => Promise<void>;
   showModal: boolean;
   postId: string;
   setShowModal: Dispatch<SetStateAction<boolean>>;

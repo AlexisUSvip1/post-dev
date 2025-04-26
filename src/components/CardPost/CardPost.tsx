@@ -4,6 +4,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark"; // <- agregado
 import { useNewPostHook } from "./CardPost.hook";
 import { useStyles } from "./CardPost.styles";
 import { BaseEmpty } from "../../Utils/BaseEmpty/BaseEmpty";
@@ -19,6 +20,8 @@ export const NewPosts = () => {
     error,
     handleLikePost,
     likedPosts,
+    handleSavePost, // <- agregado
+    savedPosts, // <- agregado
     setShowModal,
     showModal,
     openCommentsPost,
@@ -42,6 +45,7 @@ export const NewPosts = () => {
       </Box>
     );
   }
+
   if (!loading && posts.length === 0) {
     return (
       <Box className={classes.baseEmpty}>
@@ -78,6 +82,7 @@ export const NewPosts = () => {
             <Typography width="100%" display="flex" alignSelf="flex-start">
               {post.title}
             </Typography>
+
             {post.media.length > 0 && (
               <Box className={classes.containerImagesPost}>
                 {post.media.length === 1 && (
@@ -96,43 +101,31 @@ export const NewPosts = () => {
 
                 {post.media.length > 1 && post.media.length <= 3 && (
                   <Box className={classes.multiImageContainer}>
-                    {post.media.map(
-                      (image: { url: string; type: string }, index: number) => (
-                        <img
-                          key={index}
-                          src={`${import.meta.env.VITE_BACKEND_URL}${
-                            image.url
-                          }`}
-                          alt="Post Media"
-                          className={classes.multiImage}
-                          onClick={() => {
-                            setSelectedPost(post);
-                            setShowModal(true);
-                          }}
-                        />
-                      )
-                    )}
+                    {post.media.map((image, index) => (
+                      <img
+                        key={index}
+                        src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
+                        alt="Post Media"
+                        className={classes.multiImage}
+                        onClick={() => {
+                          setSelectedPost(post);
+                          setShowModal(true);
+                        }}
+                      />
+                    ))}
                   </Box>
                 )}
+
                 {post.media.length > 3 && (
                   <Box className={classes.multiImageContainer}>
-                    {post.media
-                      .slice(0, 3)
-                      .map(
-                        (
-                          image: { url: string; type: string },
-                          index: number
-                        ) => (
-                          <img
-                            key={index}
-                            src={`${import.meta.env.VITE_BACKEND_URL}${
-                              image.url
-                            }`}
-                            alt="Post Media"
-                            className={classes.multiImage}
-                          />
-                        )
-                      )}
+                    {post.media.slice(0, 3).map((image, index) => (
+                      <img
+                        key={index}
+                        src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
+                        alt="Post Media"
+                        className={classes.multiImage}
+                      />
+                    ))}
                     <Button
                       className={classes.moreImagesOverlay}
                       onClick={() => {
@@ -146,9 +139,10 @@ export const NewPosts = () => {
                 )}
               </Box>
             )}
+
             <Box display={"flex"} gap={0} alignSelf={"flex-start"}>
               {Array.isArray(post.tags)
-                ? post.tags.map((tag: string, index: number) => (
+                ? post.tags.map((tag, index) => (
                     <Typography
                       key={index}
                       sx={{
@@ -166,7 +160,9 @@ export const NewPosts = () => {
                   ))
                 : null}
             </Box>
+
             <Box className={classes.iconContainer}>
+              {/* Like Button */}
               <IconButton
                 onClick={(event) => handleLikePost(event, post._id)}
                 type="submit"
@@ -178,8 +174,10 @@ export const NewPosts = () => {
                 )}
                 <Typography sx={{ color: "white", ml: 0.5 }}>
                   {post.total_likes || 0}
-                </Typography>{" "}
+                </Typography>
               </IconButton>
+
+              {/* Comment Button */}
               <IconButton
                 onClick={(event) =>
                   handleOpenCommentModal(event, post._id, true)
@@ -188,11 +186,19 @@ export const NewPosts = () => {
                 <ChatBubbleOutlineIcon sx={{ color: "white" }} />
                 <Typography sx={{ color: "white", ml: 0.5 }}>10</Typography>
               </IconButton>
-              <IconButton>
-                <BookmarkBorderIcon sx={{ color: "white" }} />
-                <Typography sx={{ color: "white", ml: 0.5 }}>10</Typography>
+
+              {/* Save Button - Aquí lo acomodé */}
+              <IconButton onClick={(event) => handleSavePost(event, post._id)}>
+                {savedPosts[post._id] ? (
+                  <BookmarkIcon sx={{ color: "white" }} />
+                ) : (
+                  <BookmarkBorderIcon sx={{ color: "white" }} />
+                )}
+                <Typography sx={{ color: "white", ml: 0.5 }}></Typography>
               </IconButton>
             </Box>
+
+            {/* Comments Modal */}
             <CommentPost
               open={openCommentsPost}
               onClose={() => setOpenCommentsPost(false)}
@@ -201,12 +207,14 @@ export const NewPosts = () => {
           </Box>
         ))}
       </Box>
+
+      {/* Show Post Modal */}
       <ShowModalPost
         open={showModal}
         onClose={() => setShowModal(false)}
         title=""
         post={selectedPost || undefined}
-      ></ShowModalPost>
+      />
     </Box>
   );
 };
