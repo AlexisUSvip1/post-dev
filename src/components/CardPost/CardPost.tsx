@@ -12,6 +12,7 @@ import { NewsPostSkeleton } from "../../Utils/Skeletor/SkeletorPost/SkeletorPost
 import { ShowModalPost } from "./ShowModalPost/ShowModalPost";
 import { useState } from "react";
 import { CommentPost } from "../CommentPost/CommentPost";
+import Tooltip from "@mui/material/Tooltip"; // 👈 importa Tooltip
 
 export const NewPosts = () => {
   const {
@@ -140,25 +141,51 @@ export const NewPosts = () => {
               </Box>
             )}
 
-            <Box display={"flex"} gap={0} alignSelf={"flex-start"}>
-              {Array.isArray(post.tags)
-                ? post.tags.map((tag, index) => (
+            <Box
+              display="flex"
+              gap={1}
+              flexWrap="wrap"
+              alignItems="center"
+              mt={1}
+            >
+              {Array.isArray(post.tags) && post.tags.length > 0
+                ? post.tags.slice(0, 3).map((tag, index) => (
                     <Typography
                       key={index}
                       sx={{
                         color: "white",
                         backgroundColor: "rgba(90,99,106,0.40)",
                         borderRadius: "20px",
-                        width: "60px",
-                        textAlign: "center",
-                        marginTop: "10px",
+                        padding: "4px 10px",
                         fontSize: "13px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       {tag}
                     </Typography>
                   ))
                 : null}
+
+              {post.tags.length > 3 && (
+                <Tooltip title={post.tags.slice(3).join(", ")} arrow>
+                  <Box
+                    sx={{
+                      color: "white",
+                      backgroundColor: "rgba(90,99,106,0.40)",
+                      borderRadius: "20px",
+                      padding: "4px 10px",
+                      fontSize: "13px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    +{post.tags.length - 3}
+                  </Box>
+                </Tooltip>
+              )}
             </Box>
 
             <Box className={classes.iconContainer}>
