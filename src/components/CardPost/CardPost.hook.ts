@@ -8,6 +8,8 @@ export const useNewPostHook = (): UseNewPostHook => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
+  const [savedPosts, setSavedPosts] = useState<{ [key: string]: boolean }>({});
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [openCommentsPost, setOpenCommentsPost] = useState<boolean>(false);
   const token = localStorage.getItem("token");
@@ -27,6 +29,7 @@ export const useNewPostHook = (): UseNewPostHook => {
       );
 
       const likedPostsState: { [key: string]: boolean } = {};
+      const savedPostsState: { [key: string]: boolean } = {};
       await Promise.all(
         data.map(async (post: Post) => {
           const likeData = await GetFetch(
@@ -35,12 +38,20 @@ export const useNewPostHook = (): UseNewPostHook => {
             }/${user.id}/like`,
             token
           );
+          const saveData = await GetFetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${post._id}/${
+              user.id
+            }/save`,
+            token
+          );
           likedPostsState[post._id] = likeData.liked || false;
+          savedPostsState[post._id] = saveData.isSaved;
         })
       );
 
       setPosts(data);
       setLikedPosts(likedPostsState);
+      setSavedPosts(savedPostsState);
     } catch (error) {
       setError(error.message || "Error fetching posts");
       console.error("Error fetching posts:", error);
@@ -57,6 +68,41 @@ export const useNewPostHook = (): UseNewPostHook => {
     event.stopPropagation();
     setPostId(postId);
     setOpenCommentsPost(open);
+  };
+
+  const handleSavePost = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    postId: string
+  ): Promise<void> => {
+    event.stopPropagation();
+    try {
+      if (!token) {
+        throw new Error("No authentication token found, please log in.");
+      }
+
+      const isSaved = savedPosts[postId] || false;
+
+      setSavedPosts((prevState) => ({
+        ...prevState,
+        [postId]: !isSaved,
+      }));
+
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, savePost: !isSaved } : post
+        )
+      );
+
+      await PatchFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/save`,
+        token,
+        {
+          user_id: user.id,
+        }
+      );
+    } catch (error) {
+      console.error("Error al guardar/desguardar el post:", error);
+    }
   };
 
   const handleLikePost = async (
@@ -112,5 +158,7 @@ export const useNewPostHook = (): UseNewPostHook => {
     setShowModal,
     handleOpenCommentModal,
     showModal,
+    handleSavePost,
+    savedPosts,
   };
 };

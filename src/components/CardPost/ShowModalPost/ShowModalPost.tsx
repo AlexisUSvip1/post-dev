@@ -88,7 +88,7 @@ export const ShowModalPost: React.FC<ReusableModalProps> = ({
                   />
                 </IconButton>
                 <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-                  <Box>
+                  <Box width={300}>
                     <img
                       src={`${import.meta.env.VITE_BACKEND_URL}${
                         post.media[currentIndex].url
