@@ -33,9 +33,9 @@ export const useNewPostHook = (): UseNewPostHook => {
       await Promise.all(
         data.map(async (post: Post) => {
           const likeData = await GetFetch(
-            `${import.meta.env.VITE_BACKEND_URL}/api/post-dev-total-likes/${
-              post._id
-            }/${user.id}/like`,
+            `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${
+              user.id
+            }/liked-posts`,
             token
           );
           const saveData = await GetFetch(
@@ -44,11 +44,10 @@ export const useNewPostHook = (): UseNewPostHook => {
             }/save`,
             token
           );
-          likedPostsState[post._id] = likeData.liked || false;
-          savedPostsState[post._id] = saveData.isSaved;
+          savedPostsState[post._id] = saveData.savedPostIds.includes(post._id);
+          likedPostsState[post._id] = likeData.likedPostIds.includes(post._id);
         })
       );
-
       setPosts(data);
       setLikedPosts(likedPostsState);
       setSavedPosts(savedPostsState);
@@ -59,7 +58,6 @@ export const useNewPostHook = (): UseNewPostHook => {
       setLoading(false);
     }
   };
-
   const handleOpenCommentModal = (
     event: React.MouseEvent<HTMLButtonElement>,
     postId: string,
@@ -81,7 +79,6 @@ export const useNewPostHook = (): UseNewPostHook => {
       }
 
       const isSaved = savedPosts[postId] || false;
-
       setSavedPosts((prevState) => ({
         ...prevState,
         [postId]: !isSaved,
@@ -110,6 +107,7 @@ export const useNewPostHook = (): UseNewPostHook => {
     postId: string
   ): Promise<void> => {
     event.stopPropagation();
+    console.log(postId);
     try {
       if (!token) {
         throw new Error("No authentication token found, please log in.");

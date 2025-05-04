@@ -1,4 +1,4 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   newsPost: {
     position: "relative",
@@ -92,7 +92,11 @@ export const useStyles = makeStyles({
     objectFit: "cover",
     borderRadius: "100px",
   },
-
+  iconContainer: {
+    display: "flex",
+    width: "100%",
+    alignSelf: "flex-start",
+  },
   baseEmpty: {
     width: "100%",
     height: "80vh",
