@@ -20,42 +20,48 @@ export const NavbarLeft: React.FC = () => {
   return (
     <Box className={classes.root}>
       <Box className={classes.header}>
-        <Avatar src={user.avatar_url} alt={user.displayName} className={classes.avatar} />
+        <Avatar
+          src={user.avatar_url}
+          alt={user.displayName}
+          className={classes.avatar}
+        />
         <Typography variant="body1" className={classes.displayName}>
           {user.displayName}
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {[
-          { path: '/feed', label: 'Tu Feed', icon: HomeIcon },
-          { path: '/popular', label: 'Explorar Popular', icon: FireIcon },
-          { path: '/explore', label: 'Explorar', icon: ExplorerIcon },
-          { path: '/save', label: 'Guardados', icon: SaveIcon },
+          { path: "/feed", label: "Tu Feed", icon: HomeIcon },
+          { path: "/popular", label: "Explorar Popular", icon: FireIcon },
+          { path: "/explore", label: "Explorar", icon: ExplorerIcon },
+          { path: "/save", label: "Guardados", icon: SaveIcon },
         ].map((link) => (
           <Box
             key={link.path}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '8px 12px',
-              borderRadius: '4px',
-              backgroundColor: isActive(link.path) ? 'rgba(45, 74, 83, 0.67)' : 'transparent',
-              '&:hover': {
-                backgroundColor: 'rgba(45, 74, 83, 0.5)',
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              padding: "8px 12px",
+              borderRadius: "4px",
+              backgroundColor: isActive(link.path)
+                ? "rgba(45, 74, 83, 0.67)"
+                : "transparent",
+              "&:hover": {
+                backgroundColor: "rgba(45, 74, 83, 0.5)",
               },
-              transition: 'background-color 0.3s ease',
+              transition: "background-color 0.3s ease",
             }}
           >
             <img src={link.icon} alt={link.label} width="16" height="16" />
             <Link
               to={link.path}
               style={{
-                textDecoration: 'none',
-                color: '#AFB3B7',
-                fontSize: '14px',
-                fontWeight: 'bold',
+                textDecoration: "none",
+                color: "#AFB3B7",
+                fontSize: "14px",
+                fontWeight: "bold",
               }}
             >
               {t(link.label)}

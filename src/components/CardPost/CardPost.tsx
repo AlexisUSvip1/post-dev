@@ -1,32 +1,23 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Box, Typography, IconButton, Button } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark"; // <- agregado
+import { Box, Typography, Button } from "@mui/material";
 import { useNewPostHook } from "./CardPost.hook";
 import { useStyles } from "./CardPost.styles";
 import { BaseEmpty } from "../../Utils/BaseEmpty/BaseEmpty";
 import { NewsPostSkeleton } from "../../Utils/Skeletor/SkeletorPost/SkeletorPost";
 import { ShowModalPost } from "./ShowModalPost/ShowModalPost";
-import { useState } from "react";
 import { CommentPost } from "../CommentPost/CommentPost";
-import Tooltip from "@mui/material/Tooltip"; // 👈 importa Tooltip
+import Tooltip from "@mui/material/Tooltip";
+import { useState } from "react";
+import { ActionPost } from "../../Utils/ActionsPost/ActionPost";
 
 export const NewPosts = () => {
   const {
     posts,
     loading,
     error,
-    handleLikePost,
-    likedPosts,
-    handleSavePost, // <- agregado
-    savedPosts, // <- agregado
     setShowModal,
     showModal,
     openCommentsPost,
-    handleOpenCommentModal,
     setOpenCommentsPost,
     postId,
   } = useNewPostHook();
@@ -187,45 +178,8 @@ export const NewPosts = () => {
                 </Tooltip>
               )}
             </Box>
+            <ActionPost post={post} />
 
-            <Box className={classes.iconContainer}>
-              {/* Like Button */}
-              <IconButton
-                onClick={(event) => handleLikePost(event, post._id)}
-                type="submit"
-              >
-                {likedPosts[post._id] ? (
-                  <FavoriteIcon sx={{ color: "red" }} />
-                ) : (
-                  <FavoriteBorderIcon sx={{ color: "white" }} />
-                )}
-                <Typography sx={{ color: "white", ml: 0.5 }}>
-                  {post.total_likes || 0}
-                </Typography>
-              </IconButton>
-
-              {/* Comment Button */}
-              <IconButton
-                onClick={(event) =>
-                  handleOpenCommentModal(event, post._id, true)
-                }
-              >
-                <ChatBubbleOutlineIcon sx={{ color: "white" }} />
-                <Typography sx={{ color: "white", ml: 0.5 }}>10</Typography>
-              </IconButton>
-
-              {/* Save Button - Aquí lo acomodé */}
-              <IconButton onClick={(event) => handleSavePost(event, post._id)}>
-                {savedPosts[post._id] ? (
-                  <BookmarkIcon sx={{ color: "white" }} />
-                ) : (
-                  <BookmarkBorderIcon sx={{ color: "white" }} />
-                )}
-                <Typography sx={{ color: "white", ml: 0.5 }}></Typography>
-              </IconButton>
-            </Box>
-
-            {/* Comments Modal */}
             <CommentPost
               open={openCommentsPost}
               onClose={() => setOpenCommentsPost(false)}
@@ -235,7 +189,6 @@ export const NewPosts = () => {
         ))}
       </Box>
 
-      {/* Show Post Modal */}
       <ShowModalPost
         open={showModal}
         onClose={() => setShowModal(false)}
