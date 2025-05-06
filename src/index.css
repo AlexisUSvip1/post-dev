@@ -2,7 +2,31 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "SUSE", serif;
+  font-family: 'SUSE', serif;
   background-color: #0e1217;
   color: white;
+  overflow: hidden;
+}
+/* Scrollbar transparente */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* ← Fondo del scroll transparente */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
 }
