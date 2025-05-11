@@ -1,13 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Box, Typography } from '@mui/material';
-import { NavbarLeft } from '../Navbar/NavbarLeft/NavbarLeft';
-import { NavbarTop } from '../Navbar/NavbarTop/NavbarTop';
-import { useSavePost } from './useSavepost.hook';
-import { BaseEmpty } from '../../Utils/BaseEmpty/BaseEmpty';
-import { NewsPostSkeleton } from '../../Utils/Skeletor/SkeletorPost/SkeletorPost';
-import { useStyles } from './SavePost.styles';
-import { ShowModalPost } from '../CardPost/ShowModalPost/ShowModalPost';
+import { Box, Typography } from "@mui/material";
+
 import Masonry from "react-masonry-css";
+import { useSavePost } from "./useSavepost.hook";
+import { NewsPostSkeleton } from "../../components/Common/Skeletor/SkeletorPost/SkeletorPost";
+import { useStyles } from "./SavePost.styles";
+import { BaseEmpty } from "../../components/Common/BaseEmpty/BaseEmpty";
+import { NavbarLeft } from "../../components/Layout/Navbar/NavbarLeft/NavbarLeft";
+import { NavbarTop } from "../../components/Layout/Navbar/NavbarTop/NavbarTop";
+import { ShowModalPost } from "../../components/CardPost/ShowModalPost/ShowModalPost";
 
 export const SavedPost = () => {
   const {

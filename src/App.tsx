@@ -1,12 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Login } from './components/Login/Login.tsx';
-import Home from './components/Home/Home.tsx';
-import './App.css';
-import LanguageSelector from './Utils/Lenguages/LenguageSelector.tsx';
-import AuthWatcher from './Utils/ValidatorToken/AuthWrapper.tsx';
-import { SavedPost } from './components/SavedPost/SavedPost.tsx';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
+import "./App.css";
+import AuthWatcher from "./utils/ValidatorToken/AuthWrapper.tsx";
+import LanguageSelector from "./utils/Lenguages/LenguageSelector.tsx";
+import { SavedPost } from "./pages/SavedPost/SavedPost";
+import { Login } from "./pages/Home/Login/Login.tsx";
+import Home from "./pages/Home/Home.tsx";
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }

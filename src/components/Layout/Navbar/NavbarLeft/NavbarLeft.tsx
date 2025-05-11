@@ -1,14 +1,16 @@
-import React from 'react';
-import { Box, Avatar, Typography } from '@mui/material';
-import { useAppSelector } from '../../../hook/useAppSelector';
-import { Link, useLocation } from 'react-router-dom';
-import { useStyles } from './NavbarLeft.styles';
-import HomeIcon from '../../../assets/homeIcon.svg';
-import FireIcon from '../../../assets/fireIcon.svg';
-import ExplorerIcon from '../../../assets/explorerIcon.svg';
-import SaveIcon from '../../../assets/saveIcon.svg';
-import { useTranslation } from 'react-i18next';
-import { Logout } from '../../Logout/Logout';
+import React from "react";
+import { Box, Avatar, Typography } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
+import { useStyles } from "./NavbarLeft.styles";
+import HomeIcon from "../../../../assets/homeIcon.svg";
+import FireIcon from "../../../../assets/fireIcon.svg";
+import ExplorerIcon from "../../../../assets/explorerIcon.svg";
+import SaveIcon from "../../../../assets/saveIcon.svg";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../../../hook/useAppSelector";
+
+import { Followers } from "../../../Followers/Followers";
+import { Logout } from "../../../../pages/Logout/Logout";
 
 export const NavbarLeft: React.FC = () => {
   const user = useAppSelector((state) => state.user);
@@ -68,7 +70,13 @@ export const NavbarLeft: React.FC = () => {
             </Link>
           </Box>
         ))}
-        <Logout />
+
+        <Box>
+          <Followers />
+        </Box>
+        <Box>
+          <Logout />
+        </Box>
       </Box>
     </Box>
   );

@@ -1,11 +1,11 @@
 import React from "react";
 import { AppBar, Box, Button, InputBase, Toolbar } from "@mui/material";
-import { PositionLogo } from "../../../Utils/PositionLogo/PositionLogo";
 import { Add } from "@mui/icons-material"; // Import Add icon
 import { useStyles } from "./NavbarTop.styles";
 import { useTranslation } from "react-i18next";
 import { usePostModal } from "./NavbarTop.hooks";
-import { PostModal } from "../../CreatePost/Post";
+import { PositionLogo } from "../../../../utils/PositionLogo/PositionLogo";
+import { PostModal } from "../../../CreatePost/Post";
 
 export const NavbarTop: React.FC = () => {
   const classes = useStyles();

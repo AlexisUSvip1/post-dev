@@ -13,7 +13,7 @@ export const useFollowers = (): FollowetsType => {
       try {
         const response = await GetFetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/newFollowers/${user.id}`,
-          token
+          token || ""
         );
         setUsers(response);
       } catch (error) {

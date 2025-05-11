@@ -3,9 +3,9 @@ import { Box, Modal, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useStyles } from './ShowModalPost.styles';
-import { ActionPost } from '../../../Utils/ActionsPost/ActionPost';
+import { useStyles } from "./ShowModalPost.styles";
 import { Post } from '../CardPost.types';
+import { ActionPost } from "../../Common/BaseEmpty/ActionsPost/ActionPost";
 
 export interface ReusableModalProps {
   open?: boolean;

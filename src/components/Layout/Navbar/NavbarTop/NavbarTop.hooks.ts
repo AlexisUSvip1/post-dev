@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../app/store";
+import { RootState } from "../../../../app/store";
 import {
-  openModal,
-  closeModal,
-  setPostContent,
   clearPostContent,
-} from "../../../features/Post/postSlice";
+  closeModal,
+  openModal,
+  setPostContent,
+} from "../../../../features/Post/postSlice";
 
 export const usePostModal = () => {
   const dispatch = useDispatch();

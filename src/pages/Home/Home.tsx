@@ -1,10 +1,11 @@
-import React from 'react';
-import { Box } from '@mui/material';
-import { NavbarTop } from '../Navbar/NavbarTop/NavbarTop';
-import { NavbarLeft } from '../Navbar/NavbarLeft/NavbarLeft';
-import { Homehook } from './Home.hook';
-import { NewPosts } from '../CardPost/CardPost';
-import { Followers } from '../Followers/Followers';
+import React from "react";
+import { Box } from "@mui/material";
+
+import { Homehook } from "./Home.hook";
+import { NewPosts } from "../../components/CardPost/CardPost";
+import { NavbarTop } from "../../components/Layout/Navbar/NavbarTop/NavbarTop";
+import { Followers } from "../../components/Followers/Followers";
+import { NavbarLeft } from "../../components/Layout/Navbar/NavbarLeft/NavbarLeft";
 
 const Home: React.FC = () => {
   const { loading, error } = Homehook();
@@ -24,11 +25,6 @@ const Home: React.FC = () => {
         <Box flex="1" overflow="hidden">
           <NewPosts />
         </Box>
-      </Box>
-
-      {/* 20% derecha */}
-      <Box width="20%" height="100vh">
-        <Followers />
       </Box>
     </Box>
   );

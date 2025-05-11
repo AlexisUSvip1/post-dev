@@ -3,6 +3,8 @@ import { Post, UseNewPostHook } from './CardPost.types';
 import { GetFetch, PatchFetch } from '../../Utils/Fetch/fetch';
 import { useAppSelector } from '../../hook/useAppSelector';
 import { toast } from "react-toastify";
+import { removeSavedPost, savePost } from "../../features/Post/postSlice";
+import { useDispatch } from "react-redux";
 
 export const useNewPostHook = (): UseNewPostHook => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -15,8 +17,12 @@ export const useNewPostHook = (): UseNewPostHook => {
   const [openCommentsPost, setOpenCommentsPost] = useState<boolean>(false);
   const token = localStorage.getItem("token");
   const user = useAppSelector((state) => state.user);
+  const savedPostStore = useAppSelector((state) => state.post.savedPostState);
+  const dispatch = useDispatch();
+
   const [postId, setPostId] = useState<string>("");
 
+  console.log(savedPostStore);
   const getPosts = async (): Promise<void> => {
     if (loading) return;
     setLoading(true);
@@ -105,10 +111,15 @@ export const useNewPostHook = (): UseNewPostHook => {
           user_id: user.id,
         }
       );
+      const postToSave = posts.find((p) => p._id === postId);
+      console.log(postToSave);
+      if (!postToSave) return;
 
       if (isSaved) {
+        dispatch(removeSavedPost(postId));
         toast.info("Post eliminado de guardados");
       } else {
+        dispatch(savePost(postToSave)); // ✅ guarda todo el objeto
         toast.success("Post guardado correctamente");
       }
     } catch (error) {
@@ -167,7 +178,7 @@ export const useNewPostHook = (): UseNewPostHook => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [user.id]);
 
   return {
     postId,

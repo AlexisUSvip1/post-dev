@@ -1,11 +1,11 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Box, Typography, Modal, TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { usePostModal } from '../Navbar/NavbarTop/NavbarTop.hooks';
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { usePostHook } from './Post.hooks';
 import { useStyles } from './Post.styles';
 import { useTranslation } from 'react-i18next';
+import { usePostModal } from "../Layout/Navbar/NavbarTop/NavbarTop.hooks";
 
 export const PostModal = () => {
   const { openPostModal, handleCloseModal } = usePostModal();

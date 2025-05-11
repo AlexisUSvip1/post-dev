@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type UserState = {
   id?: string | undefined;
@@ -15,7 +15,7 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
@@ -30,3 +30,51 @@ const userSlice = createSlice({
 
 export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
+
+export type PostState = {
+  _id?: string;
+  title?: string;
+  body?: string;
+  created_at?: string;
+  updated_at?: string;
+  media?: any[];
+  savePost?: boolean;
+  status?: string;
+  tags?: string[];
+  total_likes?: number;
+  user_avatar?: string;
+  user_id?: string;
+  usernameUser?: string;
+  __v?: number;
+};
+
+const postInitialState: PostState = {
+  _id: undefined,
+  title: undefined,
+  body: undefined,
+  created_at: undefined,
+  updated_at: undefined,
+  media: [],
+  savePost: false,
+  status: undefined,
+  tags: [],
+  total_likes: 0,
+  user_avatar: undefined,
+  user_id: undefined,
+  usernameUser: undefined,
+  __v: 0,
+};
+
+const postSlice = createSlice({
+  name: "postData",
+  initialState: postInitialState,
+  reducers: {
+    setPost: (state, action: PayloadAction<PostState>) => {
+      Object.assign(state, action.payload);
+    },
+    clearPost: () => postInitialState,
+  },
+});
+
+export const { setPost, clearPost } = postSlice.actions;
+export { postSlice as postReducer };

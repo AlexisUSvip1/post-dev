@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import { usePostModal } from "../Navbar/NavbarTop/NavbarTop.hooks";
 import { useAppSelector } from "../../hook/useAppSelector";
 import { PostHook } from "./Post.types";
-import { techOptions } from "../../Utils/Tags/Tags";
+import { usePostModal } from "../Layout/Navbar/NavbarTop/NavbarTop.hooks";
+import { techOptions } from "../../utils/Tags/Tags";
+
 
 export const usePostHook = (): PostHook => {
   const [localContent, setLocalContent] = useState<string>("");

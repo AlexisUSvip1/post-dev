@@ -1,17 +1,17 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Box, Typography, Button } from '@mui/material';
-import { useNewPostHook } from './CardPost.hook';
-import { BaseEmpty } from '../../Utils/BaseEmpty/BaseEmpty';
-import { NewsPostSkeleton } from '../../Utils/Skeletor/SkeletorPost/SkeletorPost';
-import { ShowModalPost } from './ShowModalPost/ShowModalPost';
-import { CommentPost } from '../CommentPost/CommentPost';
-import Tooltip from '@mui/material/Tooltip';
-import { useState } from 'react';
-import { ActionPost } from '../../Utils/ActionsPost/ActionPost';
-import Masonry from 'react-masonry-css';
+import { useNewPostHook } from "./CardPost.hook";
+import { ShowModalPost } from "./ShowModalPost/ShowModalPost";
+import { CommentPost } from "../CommentPost/CommentPost";
+import Tooltip from "@mui/material/Tooltip";
+import { useState } from "react";
+import Masonry from "react-masonry-css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "./CardPost.styles";
+import { NewsPostSkeleton } from "../Common/Skeletor/SkeletorPost/SkeletorPost";
+import { BaseEmpty } from "../Common/BaseEmpty/BaseEmpty";
+import { ActionPost } from "../Common/BaseEmpty/ActionsPost/ActionPost";
 
 export const NewPosts = () => {
   const {
@@ -23,6 +23,11 @@ export const NewPosts = () => {
     openCommentsPost,
     setOpenCommentsPost,
     postId,
+    likedPosts,
+    savedPosts,
+    handleSavePost,
+    handleLikePost,
+    handleOpenCommentModal,
   } = useNewPostHook();
   const [selectedPost, setSelectedPost] = useState(null);
   const classes = useStyles();
@@ -173,7 +178,14 @@ export const NewPosts = () => {
               )}
             </Box>
 
-            <ActionPost post={post} />
+            <ActionPost
+              post={post}
+              liked={likedPosts[post._id]}
+              saved={savedPosts[post._id]}
+              onLike={handleLikePost}
+              onSave={handleSavePost}
+              onOpenComment={handleOpenCommentModal}
+            />
 
             <CommentPost
               open={openCommentsPost}

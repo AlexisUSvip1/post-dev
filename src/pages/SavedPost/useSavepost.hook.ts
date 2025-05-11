@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { UseSavePost } from "./savePost.types";
-import { GetFetch } from "../../Utils/Fetch/fetch";
 import { useAppSelector } from "../../hook/useAppSelector";
-import { Post } from "../CardPost/CardPost.types";
+import { Post } from "../../components/CardPost/CardPost.types";
+import { GetFetch } from "../../Utils/Fetch/fetch";
 
 export const useSavePost = (): UseSavePost => {
   const [savePosts, setSavePosts] = useState<Post[]>([]);

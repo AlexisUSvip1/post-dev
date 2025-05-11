@@ -1,4 +1,5 @@
-import { Post } from "../CardPost/CardPost.types";
+import { Post } from "../../components/CardPost/CardPost.types";
+
 export interface UseSavePost {
   savePosts: Post[];
   setSavePosts: (posts: Post[]) => void;
