@@ -15,20 +15,19 @@ export const useStyles = makeStyles({
   postsContainer: {
     width: "100%",
     maxHeight: "90%",
-    overflowY: "auto",
     padding: "10px",
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
     flexDirection: "row",
-    gap: "15px",
+    gap: "10px",
     scrollbarWidth: "thin" /* Firefox */,
     scrollbarColor: "rgba(255,255,255,0.5) rgba(0,0,0,0.2)",
   },
   postCard: {
     padding: "15px",
     borderRadius: "10px",
-    width: "256px",
+    width: "90%",
     height: "auto",
     background: "rgba(90,99,106,0.30)",
     display: "flex",
@@ -69,6 +68,21 @@ export const useStyles = makeStyles({
     height: "100%",
     objectFit: "cover",
     borderRadius: "8px",
+  },
+  masonryGrid: {
+    display: "flex",
+    marginLeft: "-38px", // Espaciado entre columnas
+    width: "100%",
+    marginTop: "50px",
+    height: "90vh",
+    overflowY: "scroll",
+  },
+  masonryColumn: {
+    paddingLeft: "16px",
+    backgroundClip: "padding-box",
+    "& > div": {
+      marginBottom: "16px",
+    },
   },
   moreImagesOverlay: {
     display: "flex",

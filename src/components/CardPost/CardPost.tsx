@@ -9,8 +9,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
 import { ActionPost } from '../../Utils/ActionsPost/ActionPost';
 import Masonry from 'react-masonry-css';
-
-import { useStyles } from './CardPost.styles';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useStyles } from "./CardPost.styles";
 
 export const NewPosts = () => {
   const {
@@ -58,11 +59,11 @@ export const NewPosts = () => {
     return (
       <Box
         sx={{
-          width: '100%',
-          height: '80vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          width: "100%",
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <BaseEmpty />
@@ -71,7 +72,7 @@ export const NewPosts = () => {
   }
 
   return (
-    <Box sx={{ padding: '20px' }}>
+    <Box sx={{ padding: "20px" }}>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className={classes.masonryGrid}
@@ -81,27 +82,27 @@ export const NewPosts = () => {
           <Box
             key={post._id}
             sx={{
-              background: 'rgba(90,99,106,0.30)',
-              borderRadius: '10px',
-              padding: '15px',
-              marginBottom: '16px',
+              background: "rgba(90,99,106,0.30)",
+              borderRadius: "10px",
+              padding: "15px",
+              marginBottom: "16px",
             }}
           >
             <Box display="flex" alignItems="center" gap={2} mb={2}>
               <img
                 src={post.user_avatar}
                 alt="Avatar"
-                style={{ width: 40, height: 40, borderRadius: '50%' }}
+                style={{ width: 40, height: 40, borderRadius: "50%" }}
               />
               <Box>
                 <Typography fontWeight="bold">
-                  {post.usernameUser || 'Usuario desconocido'}
+                  {post.usernameUser || "Usuario desconocido"}
                 </Typography>
                 <Typography color="rgba(255,255,255,0.80)">
-                  {new Date(post.created_at).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
+                  {new Date(post.created_at).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
                   })}
                 </Typography>
               </Box>
@@ -112,11 +113,11 @@ export const NewPosts = () => {
             {post.media.length > 0 && (
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '5px',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                  borderRadius: "8px",
+                  overflow: "hidden",
                 }}
               >
                 {post.media.map((image, index) => (
@@ -125,10 +126,10 @@ export const NewPosts = () => {
                     src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
                     alt="Post Media"
                     style={{
-                      width: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
+                      width: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      cursor: "pointer",
                     }}
                     onClick={() => {
                       setSelectedPost(post);
@@ -145,25 +146,25 @@ export const NewPosts = () => {
                   <Typography
                     key={index}
                     sx={{
-                      color: 'white',
-                      backgroundColor: 'rgba(90,99,106,0.40)',
-                      borderRadius: '20px',
-                      padding: '4px 10px',
-                      fontSize: '13px',
+                      color: "white",
+                      backgroundColor: "rgba(90,99,106,0.40)",
+                      borderRadius: "20px",
+                      padding: "4px 10px",
+                      fontSize: "13px",
                     }}
                   >
                     {tag}
                   </Typography>
                 ))}
               {post.tags.length > 3 && (
-                <Tooltip title={post.tags.slice(3).join(', ')} arrow>
+                <Tooltip title={post.tags.slice(3).join(", ")} arrow>
                   <Box
                     sx={{
-                      color: 'white',
-                      backgroundColor: 'rgba(90,99,106,0.40)',
-                      borderRadius: '20px',
-                      padding: '4px 10px',
-                      fontSize: '13px',
+                      color: "white",
+                      backgroundColor: "rgba(90,99,106,0.40)",
+                      borderRadius: "20px",
+                      padding: "4px 10px",
+                      fontSize: "13px",
                     }}
                   >
                     +{post.tags.length - 3}
@@ -189,6 +190,7 @@ export const NewPosts = () => {
         title=""
         post={selectedPost || undefined}
       />
+      <ToastContainer position="top-center" autoClose={3000} />
     </Box>
   );
 };

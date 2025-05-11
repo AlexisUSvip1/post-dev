@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Post, UseNewPostHook } from './CardPost.types';
 import { GetFetch, PatchFetch } from '../../Utils/Fetch/fetch';
 import { useAppSelector } from '../../hook/useAppSelector';
+import { toast } from "react-toastify";
 
 export const useNewPostHook = (): UseNewPostHook => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -12,36 +13,40 @@ export const useNewPostHook = (): UseNewPostHook => {
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [openCommentsPost, setOpenCommentsPost] = useState<boolean>(false);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const user = useAppSelector((state) => state.user);
-  const [postId, setPostId] = useState<string>('');
+  const [postId, setPostId] = useState<string>("");
 
   const getPosts = async (): Promise<void> => {
-    if (loading) return; // Prevenir múltiples llamadas simultáneas
+    if (loading) return;
     setLoading(true);
     setError(null);
     try {
-      if (!token) throw new Error('No authentication token found, please log in.');
+      if (!token)
+        throw new Error("No authentication token found, please log in.");
 
-      // Obtener posts y datos de likes en paralelo
       const [postsData, likeData] = await Promise.all([
         GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev-get`, token),
-        GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${user.id}/liked-posts`, token),
+        GetFetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${
+            user.id
+          }/liked-posts`,
+          token
+        ),
       ]);
 
-      // Crear mapas para likes y saves
       const likedPostsState: { [key: string]: boolean } = {};
       const savedPostsState: { [key: string]: boolean } = {};
 
-      // Procesar likes
       likeData.likedPostIds.forEach((id: string) => {
         likedPostsState[id] = true;
       });
 
-      // Obtener saves en paralelo para todos los posts
       const savePromises = postsData.map((post: Post) =>
         GetFetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${post._id}/${user.id}/save`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${post._id}/${
+            user.id
+          }/save`,
           token
         ).then((saveData) => {
           savedPostsState[post._id] = saveData.savedPostIds.includes(post._id);
@@ -54,8 +59,8 @@ export const useNewPostHook = (): UseNewPostHook => {
       setLikedPosts(likedPostsState);
       setSavedPosts(savedPostsState);
     } catch (error) {
-      setError((error as Error).message || 'Error fetching posts');
-      console.error('Error fetching posts:', error);
+      setError((error as Error).message || "Error fetching posts");
+      console.error("Error fetching posts:", error);
     } finally {
       setLoading(false);
     }
@@ -77,7 +82,8 @@ export const useNewPostHook = (): UseNewPostHook => {
   ): Promise<void> => {
     event.stopPropagation();
     try {
-      if (!token) throw new Error('No authentication token found, please log in.');
+      if (!token)
+        throw new Error("No authentication token found, please log in.");
 
       const isSaved = savedPosts[postId] || false;
 
@@ -87,14 +93,27 @@ export const useNewPostHook = (): UseNewPostHook => {
       }));
 
       setPosts((prevPosts) =>
-        prevPosts.map((post) => (post._id === postId ? { ...post, savePost: !isSaved } : post))
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, savePost: !isSaved } : post
+        )
       );
 
-      await PatchFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/save`, token, {
-        user_id: user.id,
-      });
+      await PatchFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/save`,
+        token,
+        {
+          user_id: user.id,
+        }
+      );
+
+      if (isSaved) {
+        toast.info("Post eliminado de guardados");
+      } else {
+        toast.success("Post guardado correctamente");
+      }
     } catch (error) {
-      console.error('Error al guardar/desguardar el post:', error);
+      console.error("Error al guardar/desguardar el post:", error);
+      toast.error("Error al actualizar el estado del post");
     }
   };
 
@@ -104,7 +123,8 @@ export const useNewPostHook = (): UseNewPostHook => {
   ): Promise<void> => {
     event.stopPropagation();
     try {
-      if (!token) throw new Error('No authentication token found, please log in.');
+      if (!token)
+        throw new Error("No authentication token found, please log in.");
 
       const isLiked = likedPosts[postId] || false;
 
@@ -121,11 +141,15 @@ export const useNewPostHook = (): UseNewPostHook => {
         )
       );
 
-      await PatchFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/like`, token, {
-        user_id: user.id,
-      });
+      await PatchFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/like`,
+        token,
+        {
+          user_id: user.id,
+        }
+      );
     } catch (error) {
-      console.error('Error al dar like/unlike al post:', error);
+      console.error("Error al dar like/unlike al post:", error);
     }
   };
 
@@ -143,7 +167,7 @@ export const useNewPostHook = (): UseNewPostHook => {
     return () => {
       mounted = false;
     };
-  }, []); // Solo se ejecuta al montar
+  }, []);
 
   return {
     postId,
