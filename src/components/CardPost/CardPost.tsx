@@ -34,37 +34,21 @@ export const NewPosts = () => {
   };
   if (loading) {
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center', // Centrar horizontalmente
-          alignItems: 'center', // Centrar verticalmente
-          width: '100%',
-          height: '100vh', // Ajusta según sea necesario
-          padding: '20px',
-        }}
-      >
-        <Box className={classes.newsPost}>
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className={classes.masonryGrid}
-            columnClassName={classes.masonryColumn}
-          >
-            {[...Array(7)].map((_, index) => (
-              <Box
-                key={index}
-                className={classes.postCard}
-                sx={{
-                  // Agrega un espacio entre las cards
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <NewsPostSkeleton />
-              </Box>
-            ))}
-          </Masonry>
+      <Box className={classes.loadingWrapper}>
+        <Box className={classes.skeletonGrid}>
+          {[...Array(6)].map((_, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: "300px",
+                borderRadius: "10px",
+                background: "rgba(255,255,255,0.05)",
+                padding: "10px",
+              }}
+            >
+              <NewsPostSkeleton />
+            </Box>
+          ))}
         </Box>
       </Box>
     );

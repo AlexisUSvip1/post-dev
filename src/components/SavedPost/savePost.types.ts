@@ -1,12 +1,11 @@
 import { Post } from "../CardPost/CardPost.types";
-
 export interface UseSavePost {
   savePosts: Post[];
   setSavePosts: (posts: Post[]) => void;
   loading: boolean;
   error: string | null;
-  setGetPostId: (posts: Post[]) => void;
-  selectedPost: Post;
-  getPostId: Post[];
-  handleSetPostId: (post: Post) => void;
+  selectedPost: Post | null;
+  setSelectedPost: (post: Post | null) => void;
+  showModal: boolean;
+  setShowModal: (open: boolean) => void;
 }
