@@ -44,4 +44,11 @@ export interface UseNewPostHook {
   setShowModal: Dispatch<SetStateAction<boolean>>;
   setOpenCommentsPost: Dispatch<SetStateAction<boolean>>;
   openCommentsPost: boolean;
+  addTags: string;
+  currentIndex: number
+  handlePrevClick: () => void 
+  handleNextClick: () => void
+  handleTechSelect: (tech: string) => void
+  selectedTechs: string[]
+  setAddTags: Dispatch<SetStateAction<string>>;
 }

@@ -37,6 +37,28 @@ export const useStyles = makeStyles({
     width: "40px",
     height: "40px",
   },
+  techCarousel: {
+    display: "flex",
+    overflowX: "scroll",
+    gap: "8px",
+    paddingBottom: "8px",
+    marginBottom: "16px",
+    scrollbarWidth: "none",
+    flexWrap: "wrap",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
+  techButton: {
+    width: "190px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    height: "30px",
+    color: "white",
+    backgroundColor: "rgba(90,99,106,0.40)",
+    borderRadius: "100px",
+  },
   containerImagesPost: {
     display: "flex",
     justifyContent: "center",
@@ -99,8 +121,7 @@ export const useStyles = makeStyles({
     display: "flex",
     marginLeft: "-38px", // Espaciado entre columnas
     width: "100%",
-    marginTop: "50px",
-    height: "90vh",
+    height: "80vh",
     overflowY: "scroll",
   },
   masonryColumn: {

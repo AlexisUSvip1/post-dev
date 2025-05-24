@@ -44,6 +44,7 @@
     "react-masonry-css": "^1.0.16",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.0",
+    "react-slick": "^0.30.3",
     "react-toastify": "^11.0.5",
     "yup": "^1.6.1"
   },

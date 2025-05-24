@@ -18,9 +18,10 @@ export const useStyles = makeStyles({
   header: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "16px",
-    paddingBottom: "16px",
-    borderBottom: "1px solid #5A636A",
+    justifyContent: "center",
+    borderRadius: "10px",
+    width: "100%",
+    padding: "2px",
   },
   avatar: {
     width: "30px",

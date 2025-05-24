@@ -5,6 +5,7 @@ import { useAppSelector } from '../../hook/useAppSelector';
 import { toast } from "react-toastify";
 import { removeSavedPost, savePost } from "../../features/Post/postSlice";
 import { useDispatch } from "react-redux";
+import { techOptions } from '../../utils/Tags/Tags';
 
 export const useNewPostHook = (): UseNewPostHook => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -12,17 +13,18 @@ export const useNewPostHook = (): UseNewPostHook => {
   const [error, setError] = useState<string | null>(null);
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
   const [savedPosts, setSavedPosts] = useState<{ [key: string]: boolean }>({});
-
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [addTags, setAddTags] = useState<string>("");
   const [openCommentsPost, setOpenCommentsPost] = useState<boolean>(false);
   const token = localStorage.getItem("token");
   const user = useAppSelector((state) => state.user);
-  const savedPostStore = useAppSelector((state) => state.post.savedPostState);
   const dispatch = useDispatch();
 
   const [postId, setPostId] = useState<string>("");
 
-  console.log(savedPostStore);
+
   const getPosts = async (): Promise<void> => {
     if (loading) return;
     setLoading(true);
@@ -72,6 +74,26 @@ export const useNewPostHook = (): UseNewPostHook => {
     }
   };
 
+  const handlePrevClick = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? techOptions.length - 6 : prevIndex - 1
+    );
+  };
+
+  const handleNextClick = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === techOptions.length - 6 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handleTechSelect = (tech: string) => {
+    setSelectedTechs(prev => {
+      if (prev.includes(tech)) {
+        return prev.filter(t => t !== tech);
+      }
+      return [...prev, tech];
+    });
+  };
   const handleOpenCommentModal = (
     event: React.MouseEvent<HTMLButtonElement>,
     postId: string,
@@ -163,7 +185,14 @@ export const useNewPostHook = (): UseNewPostHook => {
       console.error("Error al dar like/unlike al post:", error);
     }
   };
-
+  useEffect(() => {
+    if (selectedTechs.length > 0) {
+      const filterData = posts.filter((post) =>
+        post.tags.some((tag) => selectedTechs.includes(tag))
+      );
+      setPosts(filterData);
+    }
+  }, [selectedTechs, posts]);
   useEffect(() => {
     let mounted = true;
 
@@ -194,6 +223,13 @@ export const useNewPostHook = (): UseNewPostHook => {
     handleOpenCommentModal,
     showModal,
     handleSavePost,
+    currentIndex,
+    selectedTechs,
+    handleTechSelect,
+    handleNextClick,
+    handlePrevClick,
     savedPosts,
+    addTags,
+    setAddTags,
   };
 };
