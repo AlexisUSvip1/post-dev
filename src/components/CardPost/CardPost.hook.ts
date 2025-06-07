@@ -31,11 +31,12 @@ export const useNewPostHook = (): UseNewPostHook => {
     try {
       if (!token) throw new Error('No authentication token found, please log in.');
 
-      const [postsData, likeData] = await Promise.all([
+      const [postsData, likeData, articuleData] = await Promise.all([
         GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev-get`, token),
         GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${user.id}/liked-posts`, token),
+        GetFetch(`${import.meta.env.VITE_BACKEND_URL}/api/all-articule`, token),
       ]);
-
+      console.log(articuleData);
       const likedPostsState: { [key: string]: boolean } = {};
       const savedPostsState: { [key: string]: boolean } = {};
 
@@ -114,7 +115,6 @@ export const useNewPostHook = (): UseNewPostHook => {
         user_id: user.id,
       });
       const postToSave = posts.find((p) => p._id === postId);
-      console.log(postToSave);
       if (!postToSave) return;
 
       if (isSaved) {
@@ -153,7 +153,7 @@ export const useNewPostHook = (): UseNewPostHook => {
         )
       );
 
-      await PatchFetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev/${postId}/like`, token, {
+      await PatchFetch(`api/post-dev/${postId}/like`, token, {
         user_id: user.id,
       });
     } catch (error) {
@@ -165,7 +165,6 @@ export const useNewPostHook = (): UseNewPostHook => {
       const filterData = posts.filter((post) =>
         post.tags.some((tag) => selectedTechs.includes(tag))
       );
-      console.log(posts);
       setPosts(filterData);
     }
   }, []);

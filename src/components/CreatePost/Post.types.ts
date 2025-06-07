@@ -20,6 +20,8 @@ export interface PostHook {
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   loadingSubmit: boolean;
   handleDeleteFilePost: (previewImage: string) => void;
+  changeModalPost: (change: string)=> void,
+  changePost: string,
 }
 
 export interface TechButtonProps {

@@ -6,8 +6,8 @@ export const useStyles = makeStyles({
     backgroundColor: 'rgba(87, 87, 87, 0)',
     display: 'flex',
     alignItems: 'center',
-    zIndex: 10000,
     justifyContent: 'center',
+    zIndex: 10000,
   },
   modalBox: {
     width: '650px',
@@ -19,6 +19,53 @@ export const useStyles = makeStyles({
   containerImage: {
     width: '50px',
     height: '50px',
-    borderRadius: 100,
+    borderRadius: '50%',
+  },
+  header: {
+    width: '90%',
+    margin: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 16,
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+  },
+  body: {
+    width: '90%',
+    margin: 'auto',
+    marginTop: 16,
+  },
+  mediaWrapper: {
+    width: '90%',
+    margin: 'auto',
+    marginTop: 16,
+    position: 'relative',
+  },
+  mediaImage: {
+    width: '100%',
+    borderRadius: '8px',
+  },
+  navLeft: {
+    position: 'absolute',
+    left: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    color: 'white',
+  },
+  navRight: {
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    color: 'white',
+  },
+  actions: {
+    width: '90%',
+    margin: 'auto',
+    marginTop: 16,
   },
 });

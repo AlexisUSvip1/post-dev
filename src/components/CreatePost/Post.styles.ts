@@ -17,7 +17,6 @@ export const useStyles = makeStyles({
     border: '2px solid #5A636A',
   },
   title: {
-    marginBottom: '16px',
     color: 'white',
   },
   textField: {

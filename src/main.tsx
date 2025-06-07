@@ -9,7 +9,6 @@ import { store } from './app/store.ts';
 
 const updateFaviconColor = () => {
   const favicon = document.getElementById('favicon') as HTMLLinkElement;
-  console.log('dataaaa', favicon);
   if (!favicon) {
     console.error('Favicon element not found!');
     return;
@@ -19,7 +18,6 @@ const updateFaviconColor = () => {
 
   // Apply an invert filter for dark mode (changes black to white)
   favicon.style.filter = isDarkMode ? 'invert(100%)' : 'invert(0%)';
-  console.log('Favicon color updated');
 };
 
 // React component to handle favicon updates

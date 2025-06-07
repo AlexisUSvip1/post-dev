@@ -1,11 +1,12 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Box, Typography, Modal, TextField, Button, IconButton } from '@mui/material';
+import { Box, Typography, Modal, TextField, Button, IconButton, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { usePostHook } from './Post.hooks';
 import { useStyles } from './Post.styles';
 import { useTranslation } from 'react-i18next';
 import { usePostModal } from "../Layout/Navbar/NavbarTop/NavbarTop.hooks";
+import { ArticuleForm } from '../ArticulesForm/ArticuleForm';
 
 export const PostModal = () => {
   const { openPostModal, handleCloseModal } = usePostModal();
@@ -24,6 +25,8 @@ export const PostModal = () => {
     setAddTags,
     loadingSubmit,
     handleDeleteFilePost,
+    changeModalPost,
+    changePost,
   } = usePostHook();
   const classes = useStyles();
   const { t } = useTranslation();
@@ -37,15 +40,44 @@ export const PostModal = () => {
       <Box className={classes.modalBox}>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6" className={classes.title}>
-            {t('Crea tu propia publicación')}
-          </Typography>
+          <Box display={'flex'} justifyContent={'center'} alignItems="center" gap={'10px'}>
+            <Typography variant="h6" className={classes.title}>
+              {t('Crea tu propia publicación')}
+            </Typography>
+            <Box display={'flex'} gap={'10px'}>
+            <Button
+              sx={{
+                backgroundColor: changePost === 'POST' ? 'rgba(87, 87, 87, 0.55)' : 'rgba(87, 87, 87, 0.3)',
+                borderRadius: '20px',
+                fontWeight: '600',
+                color: 'white',
+                minWidth: '70px',
+                fontSize: '10px',
+              }}
+              onClick={() => changeModalPost('POST')}
+            >
+              Post
+            </Button>
+            <Button
+              sx={{
+                backgroundColor: changePost === 'ARTICULE' ? 'rgba(87, 87, 87, 0.55)' : 'rgba(87, 87, 87, 0.3)',
+                borderRadius: '20px',
+                fontWeight: '600',
+                color: 'white',
+                minWidth: '70px',
+                fontSize: '10px',
+              }}
+              onClick={() => changeModalPost('ARTICULE')}
+            >
+              Articule
+            </Button>            
+            </Box>
+          </Box>
           <IconButton onClick={handleCloseModal} className={classes.closeButton}>
             <CloseIcon />
           </IconButton>
         </Box>
-
-        {/* Título */}
+        {    changePost === 'POST' ? <>{/* Título */}
         <TextField
           fullWidth
           value={localContent}
@@ -152,6 +184,9 @@ export const PostModal = () => {
             </Box>
           </Box>
         </Box>
+        </> : <><ArticuleForm /></>
+        }
+        
       </Box>
     </Modal>
   );

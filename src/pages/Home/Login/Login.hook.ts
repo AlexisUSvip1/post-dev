@@ -8,7 +8,6 @@ export const useLoginHook = () => {
       if (event.origin !== 'http://localhost:3000') return;
 
       const token = event.data;
-      console.log('Token recibido:', token);
 
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       const expiresAt = decodedToken.exp * 1000;

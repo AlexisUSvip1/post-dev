@@ -41,7 +41,6 @@ export const NavbarLeft: React.FC = () => {
     color: '#AFB3B7',
   });
 
-  console.log(user);
   return (
     <Box className={classes.root}>
       <Link to="/profile" style={{ textDecoration: 'none' }}>

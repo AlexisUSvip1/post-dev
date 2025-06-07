@@ -12,6 +12,4 @@ export const checkTokenExpiration = (): void => {
     }
     return;
   }
-
-  console.log('Token válido, usuario autenticado');
 };

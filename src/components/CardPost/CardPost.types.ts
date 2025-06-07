@@ -4,6 +4,7 @@ export interface Post {
   _id: string;
   title: string;
   body: string;
+  type: string;  
   user_id: string;
   user_avatar: string;
   usernameUser: string;

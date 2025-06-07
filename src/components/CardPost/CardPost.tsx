@@ -38,7 +38,6 @@ export const NewPosts = () => {
     handlePrevClick,
   } = useNewPostHook();
   const [selectedPost, setSelectedPost] = useState(null);
-
   const classes = useStyles();
 
   if (error) return <Typography color="error">{error}</Typography>;
@@ -50,10 +49,9 @@ export const NewPosts = () => {
     500: 1,
   };
 
-  // Filtrado de posts basado en selectedTechs
   const filteredPosts =
     selectedTechs.length > 0
-      ? posts.filter((post) => post.tags.some((tag) => selectedTechs.includes(tag)))
+      ? posts.filter((post) => post.tags?.some((tag) => selectedTechs.includes(tag)))
       : posts;
 
   if (loading) {
@@ -61,15 +59,7 @@ export const NewPosts = () => {
       <Box className={classes.loadingWrapper}>
         <Box className={classes.skeletonGrid}>
           {[...Array(6)].map((_, index) => (
-            <Box
-              key={index}
-              sx={{
-                width: '300px',
-                borderRadius: '10px',
-                background: 'rgba(255,255,255,0.05)',
-                padding: '10px',
-              }}
-            >
+            <Box key={index} className={classes.skeletonBox}>
               <NewsPostSkeleton />
             </Box>
           ))}
@@ -78,103 +68,49 @@ export const NewPosts = () => {
     );
   }
 
-  // Mostrar BaseEmpty si no hay posts después del filtrado
   const showBaseEmpty = filteredPosts.length === 0;
 
+  const renderFilters = () =>
+    techOptions.slice(currentIndex, currentIndex + 6).map((option, index) => (
+      <Button
+        key={index}
+        className={classes.techButton}
+        onClick={() => handleTechSelect(option)}
+        sx={{
+          backgroundColor: selectedTechs.includes(option)
+            ? 'rgba(255,255,255,0.3)'
+            : 'rgba(255,255,255,0.1)',
+          color: selectedTechs.includes(option) ? '#fff' : 'rgba(255,255,255,0.7)',
+          border: selectedTechs.includes(option)
+            ? '1px solid rgba(255,255,255,0.5)'
+            : '1px solid rgba(255,255,255,0.1)',
+          '&:hover': {
+            backgroundColor: selectedTechs.includes(option)
+              ? 'rgba(255,255,255,0.35)'
+              : 'rgba(255,255,255,0.15)',
+          },
+        }}
+      >
+        {option.toLowerCase()}
+      </Button>
+    ));
+
   return (
-    <Box sx={{ marginTop: '100px', padding: '20px' }}>
-      <Box className={classes.techCarousel}>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            overflow: 'hidden',
-            position: 'relative',
-            padding: '0 40px',
-          }}
-        >
-          <>
-            <IconButton
-              onClick={handlePrevClick}
-              sx={{
-                position: 'absolute',
-                left: 0,
-                width: '30px',
-                height: '30px',
-                top: '50%',
-                color: 'white',
-                transform: 'translateY(-50%)',
-                zIndex: 1,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.2)',
-                },
-              }}
-            >
-              <ArrowBackIosNewIcon />
-            </IconButton>
-          </>
-          {techOptions.slice(currentIndex, currentIndex + 6).map((option, index) => (
-            <Button
-              key={index}
-              className={classes.techButton}
-              onClick={() => handleTechSelect(option)}
-              sx={{
-                whiteSpace: 'nowrap',
-                minWidth: 'auto',
-                flexShrink: 0,
-                backgroundColor: selectedTechs.includes(option)
-                  ? 'rgba(255,255,255,0.3)'
-                  : 'rgba(255,255,255,0.1)',
-                color: selectedTechs.includes(option) ? '#fff' : 'rgba(255,255,255,0.7)',
-                border: selectedTechs.includes(option)
-                  ? '1px solid rgba(255,255,255,0.5)'
-                  : '1px solid rgba(255,255,255,0.1)',
-                '&:hover': {
-                  backgroundColor: selectedTechs.includes(option)
-                    ? 'rgba(255,255,255,0.35)'
-                    : 'rgba(255,255,255,0.15)',
-                },
-              }}
-            >
-              {option.toLowerCase()}
-            </Button>
-          ))}
-          <>
-            <IconButton
-              onClick={handleNextClick}
-              sx={{
-                position: 'absolute',
-                right: 0,
-                top: '50%',
-                width: '30px',
-                height: '30px',
-                color: 'white',
-                transform: 'translateY(-50%)',
-                zIndex: 1,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.2)',
-                },
-              }}
-            >
-              <ArrowForwardIosIcon />
-            </IconButton>
-          </>
-        </Box>
+    <Box className={classes.wrapper}>
+      <Box className={classes.techCarouselWrapper}>
+        <IconButton onClick={handlePrevClick} className={classes.carouselNavLeft}>
+          <ArrowBackIosNewIcon />
+        </IconButton>
+
+        {renderFilters()}
+
+        <IconButton onClick={handleNextClick} className={classes.carouselNavRight}>
+          <ArrowForwardIosIcon />
+        </IconButton>
       </Box>
 
-      {/* Mostrar BaseEmpty si no hay posts coincidentes */}
       {showBaseEmpty ? (
-        <Box
-          sx={{
-            width: '100%',
-            height: '80vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <Box className={classes.baseEmpty}>
           <BaseEmpty />
         </Box>
       ) : (
@@ -184,21 +120,9 @@ export const NewPosts = () => {
           columnClassName={classes.masonryColumn}
         >
           {filteredPosts.map((post) => (
-            <Box
-              key={post._id}
-              sx={{
-                background: 'rgba(90,99,106,0.30)',
-                borderRadius: '10px',
-                padding: '15px',
-                marginBottom: '16px',
-              }}
-            >
+            <Box key={post._id} className={classes.postCard}>
               <Box display="flex" alignItems="center" gap={2} mb={2}>
-                <img
-                  src={post.user_avatar}
-                  alt="Avatar"
-                  style={{ width: 40, height: 40, borderRadius: '50%' }}
-                />
+                <img src={post.user_avatar} alt="Avatar" className={classes.avatar} />
                 <Box>
                   <Typography fontWeight="bold">
                     {post.usernameUser || 'Usuario desconocido'}
@@ -215,27 +139,14 @@ export const NewPosts = () => {
 
               <Typography mb={1}>{post.title}</Typography>
 
-              {post.media.length > 0 && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '5px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                  }}
-                >
+              {post.media?.length > 0 && (
+                <Box className={classes.mediaContainer}>
                   {post.media.map((image, index) => (
                     <img
                       key={index}
-                      src={image.url}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${image.url}`}
                       alt="Post Media"
-                      style={{
-                        width: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                      }}
+                      className={classes.postImage}
                       onClick={() => {
                         setSelectedPost(post);
                         setShowModal(true);
@@ -248,32 +159,13 @@ export const NewPosts = () => {
               <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
                 {Array.isArray(post.tags) &&
                   post.tags.slice(0, 3).map((tag, index) => (
-                    <Typography
-                      key={index}
-                      sx={{
-                        color: 'white',
-                        backgroundColor: 'rgba(90,99,106,0.40)',
-                        borderRadius: '20px',
-                        padding: '4px 10px',
-                        fontSize: '13px',
-                      }}
-                    >
+                    <Typography key={index} className={classes.tag}>
                       {tag}
                     </Typography>
                   ))}
-                {post.tags.length > 3 && (
+                {Array.isArray(post.tags) && post.tags.length > 3 && (
                   <Tooltip title={post.tags.slice(3).join(', ')} arrow>
-                    <Box
-                      sx={{
-                        color: 'white',
-                        backgroundColor: 'rgba(90,99,106,0.40)',
-                        borderRadius: '20px',
-                        padding: '4px 10px',
-                        fontSize: '13px',
-                      }}
-                    >
-                      +{post.tags.length - 3}
-                    </Box>
+                    <Box className={classes.tag}>+{post.tags.length - 3}</Box>
                   </Tooltip>
                 )}
               </Box>

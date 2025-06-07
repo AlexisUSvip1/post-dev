@@ -42,7 +42,7 @@ export const PatchFetch = async (url: string, token: string, body: object) => {
   }
 };
 
-export const PostFetch = async (url: string, token: string, body: object) => {
+export const PostFetch = async (url: string, token: { body: any; url: any }, body: object) => {
   try {
     const response = await fetch(url, {
       method: "POST",

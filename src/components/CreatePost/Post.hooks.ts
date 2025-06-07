@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
-import { useAppSelector } from "../../hook/useAppSelector";
-import { PostHook } from "./Post.types";
-import { usePostModal } from "../Layout/Navbar/NavbarTop/NavbarTop.hooks";
-import { techOptions } from "../../utils/Tags/Tags";
-
+import { useState } from 'react';
+import { useAppSelector } from '../../hook/useAppSelector';
+import { PostHook } from './Post.types';
+import { usePostModal } from '../Layout/Navbar/NavbarTop/NavbarTop.hooks';
+import { techOptions } from '../../utils/Tags/Tags';
 
 export const usePostHook = (): PostHook => {
-  const [localContent, setLocalContent] = useState<string>("");
-  const [textContent, setTextContent] = useState<string>("");
+  const [localContent, setLocalContent] = useState<string>('');
+  const [textContent, setTextContent] = useState<string>('');
   const [addTags, setAddTags] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [fileSelected, setFileSelected] = useState<boolean>(false);
+  const [changePost, setChangePost] = useState<string>('POST');
   const [contFiles, setContFiles] = useState(0);
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const { handleCloseModal, handleSetPostContent } = usePostModal();
@@ -41,9 +41,7 @@ export const usePostHook = (): PostHook => {
   };
 
   const handleDeleteFilePost = (previewImage: string): void => {
-    setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((img) => img !== previewImage)
-    );
+    setImagePreviews((prevPreviews) => prevPreviews.filter((img) => img !== previewImage));
     setImageFiles((prevFiles) =>
       prevFiles.filter((file, _index) => {
         const reader = new FileReader();
@@ -58,42 +56,44 @@ export const usePostHook = (): PostHook => {
   const handleSubmit = async (): Promise<void> => {
     setLoadingSubmit(true);
     try {
-      if (!user?.id) throw new Error("User ID is undefined");
-      const token = localStorage.getItem("token");
-      if (!token)
-        throw new Error("No authentication token found, please log in.");
+      if (!user?.id) throw new Error('User ID is undefined');
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No authentication token found, please log in.');
 
       const formData = new FormData();
-      formData.append("user_id", user.id.toString());
-      formData.append("title", localContent);
-      formData.append("body", textContent);
-      addTags.forEach((tag) => formData.append("tags", tag));
-      imageFiles.forEach((file) => formData.append("files", file));
+      formData.append('user_id', user.id.toString());
+      formData.append('title', localContent);
+      formData.append('body', textContent);
+      formData.append('type', 'POST');
+      addTags.forEach((tag) => formData.append('tags', tag));
+      imageFiles.forEach((file) => formData.append('files', file));
 
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/post-dev`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post-dev`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
 
-      const responseText = await response.text();
-      console.log("Raw server response:", responseText);
-
-      if (!response.ok) throw new Error("Failed to create post");
+      if (!response.ok) throw new Error('Failed to create post');
       handleSetPostContent(localContent);
       handleCloseModal();
-      setLocalContent("");
-      setTextContent("");
+      setLocalContent('');
+      setTextContent('');
       setAddTags([]);
       setImageFiles([]);
       window.location.reload();
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error('Error creating post:', error);
     }
     setLoadingSubmit(false);
+  };
+
+  const changeModalPost = (change: string): void => {
+    if (change !== 'POST') {
+      setChangePost('ARTICULE');
+    } else {
+      setChangePost('POST');
+    }
   };
 
   return {
@@ -111,5 +111,7 @@ export const usePostHook = (): PostHook => {
     imagePreviews,
     handleFileChange,
     handleDeleteFilePost,
+    changeModalPost,
+    changePost,
   };
 };
